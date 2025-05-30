@@ -1,1 +1,154 @@
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
 /* You can add global styles to this file, and also import other style files */
+
+// Paleta pastel global
+:root {
+  --pastel-bg: #f8fafc;
+  --pastel-bg-alt: #f3f7fa;
+  --pastel-primary: #a3bffa;
+  --pastel-primary-dark: #7b8fa1;
+  --pastel-green: #b9fbc0;
+  --pastel-pink: #ffe5ec;
+  --pastel-pink-hover: #fcdff1;
+  --pastel-border: #e0e7ef;
+  --pastel-text: #444;
+}
+
+html, body {
+  height: 100%;
+  min-height: 100vh;
+  background: var(--pastel-bg);
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: var(--pastel-bg);
+  color: var(--pastel-text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+app-root {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  height: 100vh;
+}
+
+router-outlet + * {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-container {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 0;
+  height: 100%; /* Permite que el dashboard ocupe toda la altura disponible del contenedor principal */
+}
+
+mat-toolbar {
+  background: linear-gradient(90deg, var(--pastel-primary) 100%, var(--pastel-primary) 100%) !important;
+  box-shadow: none;
+  border-bottom: none;
+}
+
+mat-toolbar span {
+  color: #222 !important;
+}
+
+mat-toolbar a[mat-button],
+mat-toolbar a[mat-button]:hover,
+mat-toolbar a[mat-button].toolbar-action {
+  color: #222 !important;
+  cursor: pointer;
+}
+
+mat-toolbar a.active {
+  background: var(--pastel-primary-dark);
+  color: #222 !important;
+}
+
+.snackbar-success {
+  background: #43a047 !important; /* verde pastel */
+  color: #fff !important;
+}
+.snackbar-error {
+  background: #e53935 !important; /* rojo pastel */
+  color: #fff !important;
+}
+
+.mat-mdc-dialog-container {
+  border-radius: 18px !important;
+  background: var(--pastel-bg-alt) !important;
+  box-shadow: 0 6px 32px 0 rgba(163,191,250,0.18) !important;
+  padding: 0 !important;
+}
+
+.mat-mdc-dialog-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--pastel-primary-dark);
+  padding: 24px 24px 0 24px;
+}
+
+.mat-mdc-dialog-content {
+  color: var(--pastel-text);
+  font-size: 1.08rem;
+  padding: 16px 24px 0 24px;
+}
+
+.mat-mdc-dialog-actions {
+  padding: 18px 24px 24px 24px;
+  background: transparent;
+}
+
+.mat-mdc-dialog-actions button[mat-button] {
+  color: var(--pastel-primary-dark) !important;
+  border-radius: 6px;
+  font-weight: 500;
+  background: var(--pastel-pink);
+  margin-right: 8px;
+  transition: background 0.2s;
+}
+
+.mat-mdc-dialog-actions button[mat-button]:hover {
+  background: var(--pastel-pink-hover);
+}
+
+.mat-mdc-dialog-actions button[mat-flat-button] {
+  background: var(--pastel-green) !important;
+  color: #222 !important;
+  border-radius: 6px;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.mat-mdc-dialog-actions button[mat-flat-button]:hover {
+  background: #a3f7b5 !important;
+}
+
+.main-content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.footer {
+  width: 100%;
+  background: var(--pastel-primary-dark);
+  color: #fff;
+  text-align: center;
+  font-size: 0.98rem;
+  padding: 10px 0 8px 0;
+  letter-spacing: 0.5px;
+  box-shadow: 0 -2px 8px 0 rgba(163,191,250,0.08);
+}

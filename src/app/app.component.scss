@@ -1,0 +1,63 @@
+/**
+ * Estilos para el menú superior de navegación
+ */
+a {
+  text-decoration: none !important;
+}
+mat-toolbar {
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+  background: linear-gradient(90deg, #1976d2 0%, #2196f3 100%);
+  box-shadow: none; /* Elimina sombra si la hay */
+  border-bottom: none; /* Elimina línea inferior si la hay */
+}
+
+mat-toolbar span {
+  font-size: 1.4rem;
+  letter-spacing: 1px;
+}
+
+mat-toolbar a[mat-button] {
+  color: #fff;
+  font-weight: 500;
+  margin-right: 15px;
+  text-transform: none;
+  font-size: 1.05rem;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+mat-toolbar a[mat-button]:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+mat-toolbar a.active {
+  background: #b6d0eb;
+  color: #1976d2;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.toolbar-action {
+  margin-left: 10px;
+}
+
+mat-toolbar a[mat-button],
+mat-toolbar a[mat-button]:hover,
+mat-toolbar a[mat-button].toolbar-action {
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  mat-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px 8px;
+  }
+  mat-toolbar a[mat-button] {
+    margin: 4px 0;
+  }
+}

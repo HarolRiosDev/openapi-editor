@@ -1,0 +1,117 @@
+<div class="dashboard-container">
+  <div class="dashboard-row">
+    <mat-card class="dashboard-card info-card">
+      <div class="card-header">
+        <mat-icon>info</mat-icon>
+        <span>Información</span>
+        <button *ngIf="!editInfo" mat-mini-fab color="primary" aria-label="Editar Información" (click)="editInfoMode()">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
+      <div class="info-content">
+        <!-- Mostrar SIEMPRE los campos, pero solo habilitar edición si editInfo -->
+        <form *ngIf="editInfo" (ngSubmit)="saveInfo()">
+          <mat-form-field appearance="outline" class="info-field">
+            <mat-label>Título</mat-label>
+            <input matInput [(ngModel)]="info.title" name="title" required />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="info-field">
+            <mat-label>Versión</mat-label>
+            <input matInput [(ngModel)]="info.version" name="version" required />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="info-field">
+            <mat-label>Descripción</mat-label>
+            <input matInput [(ngModel)]="info.description" name="description"/>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="info-field">
+            <mat-label>Email de contacto</mat-label>
+            <input matInput [(ngModel)]="info.contact!.email" name="email" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="info-field">
+            <mat-label>Licencia</mat-label>
+            <mat-select [(ngModel)]="info.license!.name" name="licenseName" (selectionChange)="onLicenseChange($event)">
+              <mat-option *ngFor="let lic of licenseOptions" [value]="lic.name">{{ lic.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="info-field">
+            <mat-label>URL Licencia</mat-label>
+            <input matInput [(ngModel)]="info.license!.url" name="licenseUrl" />
+          </mat-form-field>
+          <div class="info-actions">
+            <button mat-flat-button color="primary" type="submit">Guardar</button>
+            <button mat-stroked-button color="warn" type="button" (click)="editInfo = false">Cancelar</button>
+          </div>
+        </form>
+        <div *ngIf="!editInfo">
+          <mat-form-field appearance="outline" class="info-field" disabled>
+            <mat-label>Título</mat-label>
+            <input matInput [value]="info.title" disabled />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="info-field" disabled>
+            <mat-label>Versión</mat-label>
+            <input matInput [value]="info.version" disabled />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="info-field" disabled>
+            <mat-label>Descripción</mat-label>
+            <input matInput [value]="info.description" disabled/>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="info-field" disabled>
+            <mat-label>Email de contacto</mat-label>
+            <input matInput [value]="info.contact?.email" disabled />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="info-field" disabled>
+            <mat-label>Licencia</mat-label>
+            <input matInput [value]="info.license?.name" disabled />
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="info-field" disabled>
+            <mat-label>URL Licencia</mat-label>
+            <input matInput [value]="info.license?.url" disabled />
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card>
+    <div class="dashboard-col">      
+      <mat-card class="dashboard-card">
+        <div class="card-header">
+          <mat-icon>label</mat-icon>
+          <span>Tags</span>
+          <span class="count">{{ tagsCount }}</span>
+        </div>
+        <div class="card-actions">
+          <a mat-stroked-button color="primary" [routerLink]="['/tags']">Ver todos</a>
+        </div>
+      </mat-card>
+      <mat-card class="dashboard-card">
+        <div class="card-header">
+          <mat-icon>cloud</mat-icon>
+          <span>Servers</span>
+          <span class="count">{{ serversCount }}</span>
+        </div>
+        <div class="card-actions">
+          <a mat-stroked-button color="primary">Ver todos</a>
+        </div>
+      </mat-card>
+      <mat-card class="dashboard-card">
+        <div class="card-header">
+          <mat-icon>api</mat-icon>
+          <span>Endpoints</span>
+          <span class="count">{{ endpointsCount }}</span>
+        </div>
+        <div class="card-actions">
+          <a mat-stroked-button color="primary" [routerLink]="['/endpoints']">Ver todos</a>
+        </div>
+      </mat-card>
+      <mat-card class="dashboard-card">
+        <div class="card-header">
+          <mat-icon>category</mat-icon>
+          <span>Componentes</span>
+          <span class="count">{{ componentsCount }}</span>
+        </div>
+        <div class="card-actions">
+          <a mat-stroked-button color="primary" [routerLink]="['/components']">Ver todos</a>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>
+

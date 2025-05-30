@@ -1,0 +1,40 @@
+<div class="tags-fullscreen">
+  <div class="tags-header">
+    <h2>Tags (<span>{{ tags.length}}</span>)</h2>
+    <button mat-icon-button color="primary" (click)="openAddTagDialog()">
+      <mat-icon matTooltip="Añadir nuevo tag">add</mat-icon>
+    </button>
+  </div>
+  <div *ngIf="tags.length === 0" class="empty-message">No hay tags definidos.</div>
+  <div class="tags-grid" *ngIf="tags.length > 0">
+    <div class="tag-card" *ngFor="let tag of tags; let i = index">
+      <div class="tag-info">
+        <span *ngIf="!editIndexMap[i]" matTooltip="{{ tag.name }}{{tag.description ? ' (' + tag.description + ')' : ''}}" matTooltipShowDelay="400">
+          <span class="tag-title">{{ tag.name }}</span>
+          <span class="desc" *ngIf="tag.description">({{ tag.description }})</span>
+        </span>
+        <form *ngIf="editIndexMap[i]" (ngSubmit)="saveEdit(i)">
+        <mat-form-field appearance="outline" class="tag-field">
+            <input matInput [(ngModel)]="editTag.name" name="editName{{i}}" required />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="tag-field">
+            <input matInput [(ngModel)]="editTag.description" name="editDesc{{i}}" placeholder="Descripción" />
+        </mat-form-field>
+        <div class="edit-actions-buttons">
+            <button mat-icon-button color="primary" type="submit">
+            <mat-icon>check</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" type="button" (click)="cancelEdit(i)">
+            <mat-icon>close</mat-icon>
+            </button>
+        </div>
+        </form>
+      </div>
+      <div class="tag-actions" *ngIf="!editIndexMap[i]">
+        <button mat-icon-button color="primary" (click)="startEdit(i)"><mat-icon>edit</mat-icon></button>
+        <button mat-icon-button color="warn" (click)="deleteTag(i)"><mat-icon>delete</mat-icon></button>
+      </div>
+    </div>
+  </div>
+</div>
+<app-add-tag-dialog *ngIf="showAddTagDialog" (tagAdded)="addTagFromDialog($event)" (closed)="showAddTagDialog = false"></app-add-tag-dialog>
