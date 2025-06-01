@@ -1,41 +1,38 @@
 /* Estilos generales para el contenedor principal de la pantalla de tags */
-.tags-fullscreen {
-  width: 100vw;
-  min-height: 100%;
-  background: #f8fafc;
-  padding: 0 0 32px 0;
-  display: flex;
-  flex-direction: column;
+.tags-container {
+  padding: 20px;
 }
-
-/* Estilos para el encabezado de la sección de tags */
-.tags-header {
+.header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 32px 48px 18px 48px;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-.tags-header h2 {
+h2 {
   margin: 0;
-  font-size: 2rem;
-  color: #7b8fa1;
+  color: var(--text-color-primary, #333); /* Usa variable o fallback */
 }
 
-/* Mensaje cuando no hay tags definidos */
-.empty-message {
-  color: #aaa;
-  font-size: 1.05rem;
+.no-tags-message {
+  margin-top: 20px;
   text-align: center;
-  margin: 24px 0 12px 0;
+
+  mat-card {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
 }
 
-/* Grid para mostrar las tarjetas de tags */
+/* Grid para mostrar las tarjetas de tags - RESPONSIVO */
 .tags-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 columnas de igual ancho */
-  gap: 32px; /* Espacio entre las tarjetas */
-  padding: 0 48px;
+  /* Mismo enfoque responsivo: mínimo 300px, auto-fill para columnas */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px; /* Espacio entre las tarjetas */
+  padding: 0; /* No necesitamos padding en el grid si el container ya tiene */
+  margin-top: 20px;
 }
 
 /* Estilos para cada tarjeta de tag */
@@ -43,107 +40,94 @@
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 2px 8px 0 rgba(120, 144, 156, 0.10);
+  /* Mantiene la altura mínima y los ajustes de padding */
   padding: 18px 18px 12px 18px;
   min-height: 90px;
+  height: 100%; /* Asegura que todas las tarjetas de la fila tengan la misma altura */
 
-  /* >>>>>>>>> CAMBIOS CLAVE AQUI <<<<<<<<< */
-  display: flex; /* Convierte la tarjeta en un contenedor flex */
-  flex-direction: row; /* Los elementos hijos (.tag-info y .tag-actions) se alinearán en una fila */
-  justify-content: space-between; /* Empuja el contenido (info) a la izquierda y las acciones a la derecha */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: flex-start; /* Alinea los elementos en la parte superior del eje transversal */
+
+  /* Transiciones y sombras para interacción */
+  transition: box-shadow 0.2s ease-in-out;
+  &:hover {
+    box-shadow: 0 6px 32px 0 rgba(163,191,250,0.18); /* Sombra al pasar el ratón */
+  }
 }
 
-/* Contenedor de la información del tag (título, descripción o formulario de edición) */
-.tag-info {
-  display: flex; /* Convierte .tag-info en un contenedor flex para su contenido */
-  flex-direction: column; /* Apila el título/descripción O el formulario verticalmente */
-  flex-grow: 1; /* Permite que el contenido de info crezca y ocupe el espacio disponible */
-  flex-basis: 0; /* Punto de partida para el crecimiento */
-  width: 100%; /* Asegura que el contenido interno de tag-info ocupe su espacio */
-  min-width: 0; /* Importante para el `text-overflow` */
+/* Contenedor del contenido principal de la tarjeta (info y formulario de edición) */
+.tag-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Permite que el contenido crezca y ocupe el espacio disponible */
+  flex-basis: 0; /* Base de crecimiento */
+  width: 100%; /* Ocupa todo el ancho disponible */
+  min-width: 0; /* Esencial para el `text-overflow` */
+  padding: 0 !important; /* Anula el padding por defecto de mat-card-content */
 }
 
 /* Título del tag */
 .tag-title {
   display: block;
-  max-width: 350px; /* Esto podría limitar si tienes textos muy largos y quieres que se extiendan más */
+  /* Elimina max-width fijo para permitir que ocupe el 100% de .tag-content */
   width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
   font-weight: 500;
   color: #444b5a;
+  margin-bottom: 4px; /* Pequeño espacio debajo del título */
 }
 
 /* Descripción del tag */
 .tag-info .desc,
-.desc { /* Asegúrate de que .desc también tenga estos estilos si lo usas fuera de .tag-info */
+.desc {
   display: block;
-  max-width: 350px; /* Igual que el título, podría limitar */
+  /* Elimina max-width fijo */
+  width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   color: #7b8fa1;
   font-size: 0.98em;
-  margin-left: 0; /* Asegura que no haya margen extra si se definió antes */
+  margin-left: 0;
 }
 
-
-/* Estilos para el formulario de edición dentro de .tag-info */
-.tag-info form {
-  display: flex; /* Convierte el formulario en un contenedor flex */
-  flex-direction: row; /* Los inputs y el contenedor de botones irán en fila */
-  flex-wrap: wrap; /* Permite que los elementos se envuelvan a la siguiente línea si no hay espacio */
-  align-items: center; /* Alinea verticalmente los inputs y los botones */
-  flex-grow: 1; /* Permite que el formulario ocupe todo el espacio disponible dentro de .tag-info */
-  width: 100%; /* El formulario ocupa todo el ancho disponible */
+/* Estilos para el formulario de edición dentro del card */
+.tag-content form {
+  display: flex;
+  flex-direction: column; /* Cambiado a columna para que los campos de formulario se apilen */
+  flex-grow: 1;
+  width: 100%;
+  gap: 8px; /* Espacio entre los campos del formulario */
 }
 
-/* Estilos para los campos de entrada de Material (mat-form-field) */
+/* Estilos para los campos de entrada de Material (mat-form-field) en el formulario de edición */
 .tag-field {
-  min-width: 120px;
-  /* >>>>>>>>> CAMBIO CLAVE AQUI <<<<<<<<< */
-  max-width: unset; /* Permite que el input ocupe todo el ancho disponible */
-  flex-grow: 1; /* Permite que cada input crezca y ocupe el espacio */
-  flex-basis: 0; /* Base de crecimiento para el input */
-  margin-right: 10px; /* Espacio a la derecha del input antes de los botones */
+  width: 100%; /* Ocupa todo el ancho dentro del formulario */
+  margin-right: 0; /* Elimina margen derecho si el flex-direction es column */
 }
 
 /* Contenedor para los botones de 'check' y 'close' en modo edición */
 .edit-actions-buttons {
-  /* >>>>>>>>> CAMBIO CLAVE AQUI <<<<<<<<< */
-  display: flex; /* Convierte este contenedor en flex */
-  flex-direction: column; /* Apila los botones verticalmente */
-  align-items: flex-end; /* Alinea los botones a la derecha dentro de su propio contenedor */
-  margin-left: auto; /* Empuja este contenedor completamente a la derecha */
-  gap: 4px; /* Espacio entre los botones */
+  display: flex;
+  justify-content: flex-end; /* Alinea los botones a la derecha */
+  gap: 8px; /* Espacio entre los botones */
+  margin-top: 8px; /* Margen superior para separarlos de los campos */
 }
 
 /* Acciones del Tag (botones de 'edit' y 'delete' cuando NO está en edición) */
 .tag-actions {
-  /* >>>>>>>>> CAMBIO CLAVE AQUI <<<<<<<<< */
-  display: flex; /* Convierte el contenedor de acciones en flex */
-  flex-direction: column; /* Apila los iconos de editar y borrar verticalmente */
+  display: flex;
+  flex-direction: column; /* Apila los iconos verticalmente */
   gap: 4px; /* Espacio entre los iconos */
   align-items: flex-end; /* Alinea los iconos a la derecha */
-  justify-content: center; /* Centra los iconos verticalmente si la tarjeta es más alta */
+  justify-content: center; /* Centra los iconos verticalmente */
   margin-left: 10px; /* Pequeño margen a la izquierda para separarlo del texto */
-  /* Asegúrate de que no tenga flex-grow para que los inputs ocupen más espacio */
+  padding: 0 !important; /* Anula el padding por defecto de mat-card-actions */
 }
 
-/* Estilos de los inputs para añadir tags (si se usa) */
-.add-tag-form {
-  display: flex;
-  gap: 12px;
-  margin-top: 18px;
-  align-items: flex-end;
-}
-
-/* Otros estilos para la tarjeta (estos se duplican, puedes eliminarlos si ya están en .tag-card) */
-/* .tags-card {
-  padding: 24px 32px 32px 32px;
-  border-radius: 18px;
-  box-shadow: 0 6px 32px 0 rgba(163, 191, 250, 0.10);
-  background: #fff;
-  height: 100%;
-} */
+/* Eliminamos estilos duplicados o no necesarios de la versión anterior */
+/* .add-tag-form no se usa directamente en este HTML */

@@ -13,8 +13,32 @@
   --pastel-pink-hover: #fcdff1;
   --pastel-border: #e0e7ef;
   --pastel-text: #444;
+
+  /* Colores de los métodos HTTP */
+  --get-color-light: #C8E6C9;   // Verde muy claro
+  --post-color-light: #FFECB3;  // Amarillo/Naranja muy claro
+  --put-color-light: #BBDEFB;   // Azul muy claro
+  --delete-color-light: #FFCDD2; // Rojo muy claro
+  --patch-color-light: #E1BEE7; // Morado muy claro
+  --head-color-light: #CFD8DC;  // Gris azulado muy claro
+  --options-color-light: #D7CCC8; // Marrón muy claro
+  --trace-color-light: #B2EBF2;  // Cian muy claro
+
+  /* Asegúrate de que estas variables generales también estén definidas
+     en tu `src/styles.scss` si no lo están, o ajústalas aquí. */
+  --text-color-primary: #333;
+  --text-color-secondary: #666;
+  --elevation-z2: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+  --elevation-z8: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
 }
 
+.snackbar-error {
+  background-color: #f44336; /* Color rojo de Material Design */
+  color: white;
+  .mat-simple-snackbar-action {
+    color: white; /* Color del texto del botón 'Cerrar' */
+  }
+}
 html, body {
   height: 100%;
   min-height: 100vh;

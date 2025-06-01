@@ -1,0 +1,94 @@
+/* src/app/endpoints/endpoints.component.scss */
+
+
+.endpoints-container {
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+h2 {
+  margin: 0;
+  color: var(--text-color-primary);
+}
+
+.no-endpoints-message {
+  margin-top: 20px;
+  text-align: center;
+
+  mat-card {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+}
+
+.endpoints-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.endpoint-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  box-shadow: var(--elevation-z2);
+  transition: box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    box-shadow: var(--elevation-z8);
+  }
+
+  mat-card-header {
+    padding-bottom: 0;
+    flex-grow: 1;
+  }
+
+  mat-card-title {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    word-wrap: break-word;
+    font-size: 1.1em;
+  }
+
+  .method-tag {
+    font-weight: bold;
+    // Color de texto más oscuro para mejor contraste en fondos claros
+    color: rgba(0, 0, 0, 0.7); // Gris oscuro
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 8px;
+
+    // !!! CAMBIOS CLAVE AQUÍ: Ancho fijo y centrado !!!
+    width: 80px; /* Un ancho fijo para todos los verbos */
+    text-align: center; /* Centra el texto dentro del cuadro */
+    flex-shrink: 0; /* Evita que el cuadro del método se encoja */
+    flex-grow: 0;  /* Evita que el cuadro del método se estire */
+  }
+
+  .path {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9em;
+    color: var(--text-color-secondary);
+  }
+
+  /* Aplica los nuevos colores de fondo */
+  .get-method { background-color: var(--get-color-light); }
+  .post-method { background-color: var(--post-color-light); }
+  .put-method { background-color: var(--put-color-light); }
+  .delete-method { background-color: var(--delete-color-light); }
+  .patch-method { background-color: var(--patch-color-light); }
+  .head-method { background-color: var(--head-color-light); }
+  .options-method { background-color: var(--options-color-light); }
+  .trace-method { background-color: var(--trace-color-light); }
+}

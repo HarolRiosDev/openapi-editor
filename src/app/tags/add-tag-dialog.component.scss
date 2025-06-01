@@ -1,37 +1,37 @@
-.add-tag-dialog-backdrop {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.18);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* src/app/tags/add-tag-dialog.component.scss */
+
+mat-dialog-content {
+  padding: 20px 24px 20px 24px;
 }
-.add-tag-dialog {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 6px 32px 0 rgba(163,191,250,0.18);
-  padding: 32px 32px 24px 32px;
-  min-width: 320px;
-  max-width: 90vw;
+
+mat-dialog-title {
+  color: #7b8fa1;
+  margin-bottom: 18px;
+  padding: 24px 24px 0 24px;
+}
+
+form {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-}
-.add-tag-dialog h3 {
-  margin-top: 0;
-  margin-bottom: 18px;
-  color: #7b8fa1;
-}
-.actions {
-  margin-top: 18px;
-  display: flex;
-  gap: 12px;
-  justify-content: flex-end;
-}
-.tag-field {
-  min-width: 120px;
-  max-width: 100%;
+  gap: 16px;
   width: 100%;
-  margin-right: 12px;
+}
+
+.tag-field {
+  width: 100%;
+}
+
+mat-dialog-actions {
+  padding: 0 24px 24px 24px;
+}
+
+/* --- NUEVO ESTILO PARA EL MENSAJE DE ERROR --- */
+.error-message {
+  color: #f44336; /* Rojo de Material Design para errores */
+  font-size: 0.85em;
+  text-align: center;
+  margin-top: 10px;
+  padding: 5px 0;
+  border-radius: 4px;
+  background-color: rgba(244, 67, 54, 0.1); /* Fondo muy ligero para el error */
 }

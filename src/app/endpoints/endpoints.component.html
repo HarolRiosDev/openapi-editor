@@ -1,1 +1,38 @@
-<p>endpoints works!</p>
+<div class="endpoints-container">
+  <div class="header">
+    <h2>Endpoints(<span>{{ endpoints.length}}</span>)</h2>
+    <button mat-raised-button color="primary" (click)="openAddEndpointDialog()">
+      <mat-icon>add</mat-icon> Añadir Endpoint
+    </button>
+  </div>
+
+  <div *ngIf="endpoints.length === 0" class="no-endpoints-message">
+    <mat-card>
+      <mat-card-content>
+        <p>No hay endpoints definidos en el archivo OpenAPI.</p>
+        <p>Puedes añadir uno haciendo clic en el botón "Añadir Endpoint".</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="endpoints-grid">
+    <mat-card *ngFor="let endpoint of endpoints; let i = index" class="endpoint-card">
+      <mat-card-header>
+        <mat-card-title>
+          <span class="method-tag" [ngClass]="getHttpMethodClass(getHttpMethod(endpoint))">
+            {{ getHttpMethod(endpoint) | uppercase }}
+          </span>
+          <span class="path">{{ endpoint.path }}</span>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-actions align="end">
+        <button mat-icon-button (click)="openEditEndpointDialog(endpoint)" matTooltip="Editar Endpoint">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteEndpoint(i)" matTooltip="Eliminar Endpoint">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

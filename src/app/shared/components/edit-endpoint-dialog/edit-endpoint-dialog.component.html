@@ -1,0 +1,152 @@
+<h2 mat-dialog-title>Editar Endpoint: {{ editingEndpoint.path }} ({{ editingEndpoint.method | uppercase }})</h2>
+
+<mat-dialog-content>
+  <form #editEndpointForm="ngForm">
+    <div class="form-row">
+      <mat-form-field class="method-input">
+        <mat-label>Método</mat-label>
+        <mat-select [(ngModel)]="editingEndpoint.method" name="method" required (selectionChange)="onMethodChange()">
+          <mat-option value="get">GET</mat-option>
+          <mat-option value="post">POST</mat-option>
+          <mat-option value="put">PUT</mat-option>
+          <mat-option value="delete">DELETE</mat-option>
+          <mat-option value="patch">PATCH</mat-option>
+          <mat-option value="head">HEAD</mat-option>
+          <mat-option value="options">OPTIONS</mat-option>
+          <mat-option value="trace">TRACE</mat-option>
+        </mat-select>
+        <mat-error *ngIf="editEndpointForm.controls['method']?.hasError('required') && editEndpointForm.controls['method']?.touched">
+            El método es requerido.
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="path-input">
+        <mat-label>Path</mat-label>
+        <input matInput [(ngModel)]="editingEndpoint.path" name="path" required pattern="^/.*$"
+          title="El path debe empezar con /">
+        <mat-error *ngIf="editEndpointForm.controls['path']?.hasError('pattern') && (editEndpointForm.controls['path']?.dirty || editEndpointForm.controls['path']?.touched)">
+          El path debe empezar con '/'
+        </mat-error>
+        <mat-error *ngIf="editEndpointForm.controls['path']?.hasError('required') && (editEndpointForm.controls['path']?.dirty || editEndpointForm.controls['path']?.touched)">
+          El path es requerido.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field class="full-width">
+      <mat-label>Resumen</mat-label>
+      <input matInput [(ngModel)]="editingEndpoint.details.summary" name="summary">
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput [(ngModel)]="editingEndpoint.details.description" name="description"
+        rows="3"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>OperationId</mat-label>
+      <input matInput [(ngModel)]="editingEndpoint.details.operationId" name="operationId">
+    </mat-form-field>
+
+    <mat-form-field class="full-width"
+      *ngIf="editingEndpoint.method !== 'get' && editingEndpoint.method !== 'head'">
+      <mat-label>Request Body ($ref)</mat-label>
+      <input matInput
+             [formControl]="requestBodyRefControl"
+             [matAutocomplete]="autoRequestBody"
+             name="requestBodyRef"
+             placeholder="Ej: LoginRequest o UserSchema">
+      <mat-autocomplete #autoRequestBody="matAutocomplete">
+        <mat-option *ngFor="let option of filteredRequestBodyRefOptions | async" [value]="option">
+          {{ option }}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-hint>Escribe el nombre de un RequestBody (ej. LoginRequest) o un Schema (ej. User)</mat-hint>
+      <mat-error *ngIf="requestBodyRefControl.hasError('required') && (requestBodyRefControl.dirty || requestBodyRefControl.touched)">
+          El Request Body es requerido para este método.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-divider></mat-divider>
+    <h3>Respuestas</h3>
+    <div *ngFor="let response of editingEndpoint.details.responsesArray; let respIndex = index"
+      class="response-item">
+      <mat-form-field class="status-code-input-expanded">
+        <mat-label>Código</mat-label>
+        <input matInput
+               [matAutocomplete]="autoStatusCode"
+               [(ngModel)]="response.statusCode"
+               name="statusCode-{{respIndex}}"
+               required
+               (input)="filterStatusCodes(response.statusCode)">
+        <mat-autocomplete #autoStatusCode="matAutocomplete">
+          <mat-option *ngFor="let option of filteredStatusCodes" [value]="option.code">
+            <span class="status-code-option-code">{{option.code}}</span>
+            <span class="status-code-option-description">- {{option.description}}</span>
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="editEndpointForm.controls['statusCode-' + respIndex]?.hasError('required') && (editEndpointForm.controls['statusCode-' + respIndex]?.dirty || editEndpointForm.controls['statusCode-' + respIndex]?.touched)">
+            El código de estado es requerido.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="ref-input-expanded">
+        <mat-label>Schema/Response ($ref)</mat-label>
+        <input matInput
+               [matAutocomplete]="autoResponseRef"
+               [(ngModel)]="response.ref"
+               name="responseRef-{{respIndex}}"
+               placeholder="Ej: AuthMeResponse o Error"
+               required>
+        <mat-autocomplete #autoResponseRef="matAutocomplete">
+          <mat-option *ngFor="let option of _filterResponseRefOptions(response.ref || '')" [value]="option">
+            {{ option }}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-hint>Escribe el nombre de una Response (ej. BadRequest) o un Schema (ej. Error)</mat-hint>
+        <mat-error *ngIf="editEndpointForm.controls['responseRef-' + respIndex]?.hasError('required') && (editEndpointForm.controls['responseRef-' + respIndex]?.dirty || editEndpointForm.controls['responseRef-' + respIndex]?.touched)">
+            La referencia es requerida.
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-icon-button color="warn" (click)="removeResponse(respIndex)" matTooltip="Eliminar Respuesta">
+        <mat-icon>remove_circle</mat-icon>
+      </button>
+    </div>
+    <button mat-raised-button type="button" (click)="addResponse()">
+      <mat-icon>add</mat-icon> Añadir Respuesta
+    </button>
+    <mat-divider></mat-divider>
+
+    <mat-form-field class="full-width">
+      <mat-label>Tags</mat-label>
+      <mat-chip-grid #chipGrid aria-label="Selección de tags">
+        <mat-chip-row *ngFor="let tag of editingEndpoint.details.tags" (removed)="removeTag(tag)">
+          {{ tag }}
+          <button matChipRemove [attr.aria-label]="'eliminar ' + tag">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+        <input
+          placeholder="Añadir tag..."
+          #tagInput
+          [formControl]="tagInputControl"
+          [matChipInputFor]="chipGrid"
+          [matChipInputAddOnBlur]="true"
+          [matAutocomplete]="autoTags"
+        />
+        <mat-autocomplete #autoTags="matAutocomplete" (optionSelected)="addTagFromInput($event.option.value)">
+          <mat-option *ngFor="let tagOption of filteredTagOptions | async" [value]="tagOption">
+            {{ tagOption }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-chip-grid>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="save(editEndpointForm)"
+    [disabled]="!editEndpointForm.valid">Guardar</button>
+</mat-dialog-actions>

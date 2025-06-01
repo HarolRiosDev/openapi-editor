@@ -1,0 +1,89 @@
+.form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+
+  .method-input {
+    flex: 0 0 120px;
+  }
+
+  .path-input {
+    flex: 1;
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+.response-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+  border: 1px solid #eee;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+
+  .status-code-input-expanded {
+    flex: 0 0 100px;
+  }
+
+  .ref-input-expanded {
+    flex: 1;
+  }
+
+  button[mat-icon-button] {
+    flex-shrink: 0;
+  }
+}
+
+.status-code-option-code {
+  font-weight: bold;
+  margin-right: 8px;
+  min-width: 40px;
+  display: inline-block;
+}
+
+.status-code-option-description {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.9em;
+}
+
+/* Nuevos estilos para la sección de parámetros */
+.parameter-item {
+  border: 1px solid #eee;
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.param-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 8px;
+  flex-wrap: wrap; // Permite que los elementos se envuelvan en pantallas pequeñas
+}
+
+.param-name {
+  flex: 2; // Más espacio para el nombre
+  min-width: 150px; // Mínimo para que no se vea mal
+}
+
+.param-in, .param-type {
+  flex: 1; // Espacio equitativo para 'in' y 'type'
+  min-width: 100px; // Evitar que se encojan demasiado
+}
+
+.param-required {
+  flex-shrink: 0; // No se encoge
+  margin-left: 8px; // Espacio a la izquierda
+}
+
+// Ajuste para el input del método si era demasiado ancho
+.method-input {
+  flex: 0 0 120px !important; // Fuerza el ancho para el método, ajusta si necesitas otro valor
+}
