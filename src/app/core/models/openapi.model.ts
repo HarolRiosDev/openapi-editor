@@ -1,7 +1,11 @@
+// src/app/core/models/openapi.model.ts
+
 export interface OpenApiInfo {
   title: string;
   description?: string;
   contact?: {
+    name?: string;
+    url?: string;
     email?: string;
   };
   license?: {
@@ -11,111 +15,201 @@ export interface OpenApiInfo {
   version: string;
 }
 
-// --- Interfaz principal de OpenAPI usando las interfaces más específicas ---
-export interface Openapi {
-  openapi?: string;
-  info: OpenApiInfo;
-  paths?: Record<string, OpenApiPathItemObject>; // Usamos OpenApiPathItemObject aquí
-  tags?: Array<{ name: string; description?: string }>;
-  servers?: Array<{ url: string; description?: string }>;
-  components?: {
-    schemas?: Record<string, OpenApiSchemaObject>; // Usamos OpenApiSchemaObject
-    responses?: Record<string, OpenApiResponseObject>; // Usamos OpenApiResponseObject
-    parameters?: Record<string, any>;
-    requestBodies?: Record<string, OpenApiRequestBodyObject>; // Usamos OpenApiRequestBodyObject
-    [key: string]: any; // Permite otras propiedades custom en components
+// Interfaces auxiliares que pueden ser referenciadas o definidas inline
+export interface OpenApiReferenceObject {
+  $ref: string;
+}
+
+export interface OpenApiSchemaObject {
+  type?: 'string' | 'number' | 'integer' | 'boolean' | 'array' | 'object';
+  format?: string;
+  properties?: { [key: string]: OpenApiSchemaObject | OpenApiReferenceObject };
+  required?: string[];
+  example?: any;
+  items?: OpenApiSchemaObject | OpenApiReferenceObject;
+  enum?: any[];
+  default?: any;
+  description?: string;
+  nullable?: boolean;
+  readOnly?: boolean;
+  writeOnly?: boolean;
+  xml?: OpenApiXMLObject;
+  externalDocs?: OpenApiExternalDocumentationObject;
+  deprecated?: boolean;
+  // Mantenemos esto si necesitas propiedades adicionales arbitrarias
+  [key: string]: any;
+}
+
+export interface OpenApiXMLObject {
+  name?: string;
+  namespace?: string;
+  prefix?: string;
+  attribute?: boolean;
+  wrapped?: boolean;
+}
+
+export interface OpenApiExternalDocumentationObject {
+  description?: string;
+  url: string;
+}
+
+export interface OpenApiExampleObject {
+  summary?: string;
+  description?: string;
+  value?: any;
+  externalValue?: string;
+}
+
+export interface OpenApiMediaTypeObject {
+  schema?: OpenApiSchemaObject | OpenApiReferenceObject;
+  examples?: { [name: string]: OpenApiExampleObject | OpenApiReferenceObject };
+  example?: any;
+  encoding?: { [property: string]: OpenApiEncodingObject };
+}
+
+export interface OpenApiEncodingObject {
+  contentType?: string;
+  headers?: { [header: string]: OpenApiHeaderObject | OpenApiReferenceObject };
+  style?: string;
+  explode?: boolean;
+  allowReserved?: boolean;
+}
+
+export interface OpenApiHeaderObject extends Omit<OpenApiParameterObject, 'name' | 'in'> {
+  // Omitimos 'name' y 'in' ya que para un Header son fijos.
+}
+
+export interface OpenApiRequestBodyObject {
+  description?: string;
+  content: { [mediaType: string]: OpenApiMediaTypeObject };
+  required?: boolean;
+}
+
+export interface OpenApiResponseObject {
+  description: string;
+  headers?: { [name: string]: OpenApiHeaderObject | OpenApiReferenceObject };
+  content?: { [mediaType: string]: OpenApiMediaTypeObject };
+  links?: { [name: string]: OpenApiLinkObject | OpenApiReferenceObject };
+}
+
+export interface OpenApiLinkObject {
+  operationRef?: string;
+  operationId?: string;
+  parameters?: { [parameter: string]: any; };
+  requestBody?: any;
+  description?: string;
+  server?: OpenApiServerObject;
+}
+
+export interface OpenApiServerObject {
+  url: string;
+  description?: string;
+  variables?: {
+    [variable: string]: {
+      enum?: string[];
+      default: string;
+      description?: string;
+    };
   };
-  // ... cualquier otra propiedad root de OpenAPI
+}
+
+export interface OpenApiSecurityRequirementObject {
+  [name: string]: string[];
+}
+
+export interface OpenApiTagObject {
+  name: string;
+  description?: string;
+  externalDocs?: OpenApiExternalDocumentationObject;
+}
+
+export interface OpenApiCallbackObject {
+  [expression: string]: OpenApiPathItemObject | OpenApiReferenceObject;
 }
 
 
-// Define la estructura de una operación HTTP (GET, POST, etc.)
+// --- Main OpenAPI Interface ---
+export interface Openapi {
+  openapi: string;
+  info: OpenApiInfo;
+  servers?: OpenApiServerObject[]; // <-- AÑADIDO: 'servers' a nivel raíz de Openapi
+  paths: {
+    [path: string]: OpenApiPathItemObject;
+  };
+  components?: {
+    schemas?: Record<string, OpenApiSchemaObject | OpenApiReferenceObject>;
+    responses?: Record<string, OpenApiResponseObject | OpenApiReferenceObject>;
+    parameters?: Record<string, OpenApiParameterObject | OpenApiReferenceObject>;
+    examples?: Record<string, OpenApiExampleObject | OpenApiReferenceObject>;
+    requestBodies?: Record<string, OpenApiRequestBodyObject | OpenApiReferenceObject>;
+    headers?: Record<string, OpenApiHeaderObject | OpenApiReferenceObject>;
+    securitySchemes?: Record<string, any>;
+    links?: Record<string, OpenApiLinkObject | OpenApiReferenceObject>;
+    callbacks?: Record<string, OpenApiCallbackObject | OpenApiReferenceObject>;
+  };
+  security?: OpenApiSecurityRequirementObject[];
+  tags?: OpenApiTagObject[];
+  externalDocs?: OpenApiExternalDocumentationObject;
+}
+
+export interface OpenApiPathItemObject {
+  $ref?: string;
+  summary?: string;
+  description?: string;
+  get?: OpenApiOperationObject;
+  put?: OpenApiOperationObject;
+  post?: OpenApiOperationObject;
+  delete?: OpenApiOperationObject;
+  options?: OpenApiOperationObject;
+  head?: OpenApiOperationObject;
+  patch?: OpenApiOperationObject;
+  trace?: OpenApiOperationObject;
+  servers?: OpenApiServerObject[];
+  parameters?: (OpenApiParameterObject | OpenApiReferenceObject)[];
+}
+
 export interface OpenApiOperationObject {
   tags?: string[];
   summary?: string;
   description?: string;
+  externalDocs?: OpenApiExternalDocumentationObject;
   operationId?: string;
-  parameters?: any[]; // Puedes detallar esto con una interfaz ParameterObject si es necesario
-  requestBody?: {
-    description?: string;
-    required?: boolean;
-    content?: {
-      [mediaType: string]: {
-        schema: {
-          $ref?: string;
-        };
-      };
-    };
-    // También puede ser una referencia directa a un RequestBody Object
-    $ref?: string; // Si se usa directamente una referencia global a un requestBody
-  }
-  // responses es un mapa de códigos de estado a Response Objects o referencias
-  responses?: {
-    [statusCode: string]: {
-      description: string;
-      // Puede incluir content para esquemas detallados
-      content?: {
-        [mediaType: string]: {
-          schema: {
-            $ref?: string;
-          };
-        };
-      };
-      // O puede ser una referencia a un Response Object global
-      $ref?: string;
-    } | { $ref: string }; // Una respuesta puede ser una referencia directa
+  parameters?: (OpenApiParameterObject | OpenApiReferenceObject)[];
+  requestBody?: OpenApiRequestBodyObject | OpenApiReferenceObject;
+  responses?: { // Sigue siendo opcional
+    [statusCode: string]: OpenApiResponseObject | OpenApiReferenceObject;
   };
-  security?: any[]; // Puedes detallar esto con una interfaz SecurityRequirementObject si es necesario
-  // ... otras propiedades de una operación OpenAPI
-}
-
-// Define la estructura de un Path (ej. /api/users) que contiene múltiples operaciones
-export interface OpenApiPathItemObject {
-  get?: OpenApiOperationObject;
-  post?: OpenApiOperationObject;
-  put?: OpenApiOperationObject;
-  delete?: OpenApiOperationObject;
-  patch?: OpenApiOperationObject;
-  head?: OpenApiOperationObject;
-  options?: OpenApiOperationObject;
-  trace?: OpenApiOperationObject;
-  // ... otras propiedades como parameters a nivel de path
-}
-
-
-// --- Interfaces para los componentes (opcional, pero buena práctica) ---
-
-// Interfaz para la definición de un Schema (por ejemplo, un modelo de datos)
-export interface OpenApiSchemaObject {
-  type?: 'string' | 'number' | 'integer' | 'boolean' | 'array' | 'object';
-  format?: string; // 'date-time', 'email', 'int32', etc.
-  properties?: { [key: string]: OpenApiSchemaObject | { $ref: string } };
-  required?: string[];
-  example?: any; // Valor de ejemplo para el schema
-  items?: OpenApiSchemaObject | { $ref: string }; // Para esquemas de tipo 'array'
-  enum?: any[]; // Para enumeraciones
-  default?: any; // Valor por defecto
-  description?: string; // Descripción del esquema
-  nullable?: boolean; // OpenAPI 3.0.0+
-  readOnly?: boolean;
-  writeOnly?: boolean;
-  xml?: any; // XML Object
-  externalDocs?: any; // External Documentation Object
+  callbacks?: { [callback: string]: OpenApiCallbackObject | OpenApiReferenceObject; };
   deprecated?: boolean;
+  security?: OpenApiSecurityRequirementObject[];
+  servers?: OpenApiServerObject[];
 }
 
 
-// Interfaz para una definición de Request Body
-export interface OpenApiRequestBodyObject {
+export interface OpenApiParameterObject {
+  name: string;
+  in: 'query' | 'header' | 'path' | 'cookie';
   description?: string;
   required?: boolean;
-  content: { [mediaType: string]: { schema: OpenApiSchemaObject | { $ref: string } } };
+  deprecated?: boolean;
+  allowEmptyValue?: boolean;
+  style?: string;
+  explode?: boolean;
+  allowReserved?: boolean;
+  schema?: OpenApiSchemaObject | OpenApiReferenceObject;
+  examples?: { [name: string]: OpenApiExampleObject | OpenApiReferenceObject };
+  content?: { [mediaType: string]: OpenApiMediaTypeObject };
+  [key: string]: any;
 }
 
-// Interfaz para una definición de Respuesta
-export interface OpenApiResponseObject {
-  description: string;
-  headers?: Record<string, any>; // Headers Object
-  content?: { [mediaType: string]: { schema: OpenApiSchemaObject | { $ref: string } } };
-  links?: Record<string, any>; // Links Object
+
+// Interfaz de Display para el componente (se usa en el archivo del diálogo y en endpoints.component.ts)
+export interface EndpointDisplayItem {
+  path: string;
+  method: string;
+  details: OpenApiOperationObject & {
+    requestBodyRef?: string;
+    responsesArray?: { statusCode: string; description?: string; ref?: string }[];
+    parametersArray?: OpenApiParameterObject[];
+  };
 }

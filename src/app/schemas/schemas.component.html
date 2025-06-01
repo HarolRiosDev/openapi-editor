@@ -1,1 +1,156 @@
-<p>schemas works!</p>
+<div class="componentes-container">
+  <mat-tab-group>
+     <mat-tab label="Parámetros ({{ parameters.length }})">
+    <div class="tab-content">
+      <div class="header-row">
+        <button mat-raised-button color="primary" (click)="onAddParameter()">
+          <mat-icon>add</mat-icon> Añadir Parámetro
+        </button>
+      </div>
+
+      <div class="card-grid">
+        <mat-card *ngFor="let param of parameters" class="parameter-card">
+          <div class="card-header">
+            <strong>{{ param.name }}</strong>
+            <span class="param-location">({{ param.in }})</span>
+          </div>
+          <div class="card-description">
+            {{ param.description || 'Sin descripción' }}
+          </div>
+
+          <div class="card-actions">
+            <button mat-icon-button color="primary" (click)="onEditParameter(param)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="onDeleteParameter(param)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </mat-tab>
+
+    <mat-tab label="Esquemas ({{ schemas.length }})">
+      <div class="tab-content">
+      <div class="header-row">
+        <button mat-raised-button color="primary" (click)="onAddSchema()">
+          <mat-icon>add</mat-icon> Añadir Esquema
+        </button>
+      </div>
+
+      <div class="card-grid">
+        <mat-card *ngFor="let schema of schemas" class="parameter-card">
+          <div class="card-header">
+            <strong>{{ schema.name }}</strong>
+          </div>
+          <div class="card-description">
+            {{ schema.description || 'Sin descripción' }}
+          </div>
+
+          <div class="card-actions">
+            <button mat-icon-button color="primary" (click)="onEditSchema(schema)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="onDeleteSchema(schema)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+    </mat-tab>
+
+    <mat-tab label="Esquemas de seguridad ({{ securitySchemes.length }})">
+      <div class="tab-content">
+      <div class="header-row">
+        <button mat-raised-button color="primary" (click)="onAddSecuritySchema()">
+          <mat-icon>add</mat-icon> Añadir Esquema de seguridad
+        </button>
+      </div>
+
+      <div class="card-grid">
+        <mat-card *ngFor="let security of securitySchemes" class="parameter-card">
+          <div class="card-header">
+            <strong>{{ security.name }}</strong>
+          </div>
+          <div class="card-description">
+            {{ security.description || 'Sin descripción' }}
+          </div>
+
+          <div class="card-actions">
+            <button mat-icon-button color="primary" (click)="onEditSecuritySchema(security)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="onDeleteSecuritySchema(security)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+    </mat-tab>
+
+    <mat-tab label="Cuerpos de solicitud ({{ requestBodies.length }})">
+      <div class="tab-content">
+      <div class="header-row">
+        <button mat-raised-button color="primary" (click)="onAddResquestBody()">
+          <mat-icon>add</mat-icon> Añadir Cuerpo de solicitud
+        </button>
+      </div>
+
+      <div class="card-grid">
+        <mat-card *ngFor="let requestBody of requestBodies" class="parameter-card">
+          <div class="card-header">
+            <strong>{{ requestBody.name }}</strong>
+          </div>
+          <div class="card-description">
+            {{ requestBody.description || 'Sin descripción' }}
+          </div>
+
+          <div class="card-actions">
+            <button mat-icon-button color="primary" (click)="onEditResquestBody(requestBody)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="onDeleteResquestBody(requestBody)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+    </mat-tab>
+
+    <mat-tab label="Respuestas ({{ responses.length }})">
+      <div class="tab-content">
+      <div class="header-row">
+        <button mat-raised-button color="primary" (click)="onAddResponse()">
+          <mat-icon>add</mat-icon> Añadir Respuesta
+        </button>
+      </div>
+
+      <div class="card-grid">
+        <mat-card *ngFor="let response of responses" class="parameter-card">
+          <div class="card-header">
+            <strong>{{ response.name }}</strong>
+          </div>
+          <div class="card-description">
+            {{ response.description || 'Sin descripción' }}
+          </div>
+
+          <div class="card-actions">
+            <button mat-icon-button color="primary" (click)="onEditResponse(response)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="onDeleteResponse(response)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+    </mat-tab>
+
+    <!-- Puedes agregar más tabs si lo necesitas -->
+  </mat-tab-group>
+</div>

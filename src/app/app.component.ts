@@ -1,7 +1,6 @@
 // src/app/app.component.ts
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { RouterOutlet, RouterModule } from '@angular/router';
-import { BrowserModule } from '@angular/platform-browser';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -10,11 +9,13 @@ import * as yaml from 'js-yaml';
 import { Openapi } from './core/models/openapi.model'; // Asegúrate de que Openapi esté importado
 import { OpenapiService } from './core/services/openapi.service';
 import { ConfirmDialogComponent } from './shared/components/modal/confirm-dialog.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterModule, MatToolbarModule, MatIconModule, MatSnackBarModule, MatDialogModule],
+  imports: [RouterOutlet, RouterModule, MatToolbarModule, MatIconModule, MatSnackBarModule, MatDialogModule,MatSidenavModule,MatButtonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
