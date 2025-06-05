@@ -187,6 +187,7 @@ export interface OpenApiOperationObject {
 
 
 export interface OpenApiParameterObject {
+  key: string;
   name: string;
   in: 'query' | 'header' | 'path' | 'cookie';
   description?: string;
@@ -197,7 +198,7 @@ export interface OpenApiParameterObject {
   explode?: boolean;
   allowReserved?: boolean;
   schema?: OpenApiSchemaObject | OpenApiReferenceObject;
-  examples?: { [name: string]: OpenApiExampleObject | OpenApiReferenceObject };
+  example?: { [name: string]: OpenApiExampleObject | OpenApiReferenceObject };
   content?: { [mediaType: string]: OpenApiMediaTypeObject };
   [key: string]: any;
 }

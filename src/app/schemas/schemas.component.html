@@ -11,18 +11,22 @@
       <div class="card-grid">
         <mat-card *ngFor="let param of parameters" class="parameter-card">
           <div class="card-header">
-            <strong>{{ param.name }}</strong>
+            <strong>{{ param.key }}</strong>
             <span class="param-location">({{ param.in }})</span>
+          </div>
+          <div class="card-description">
+            {{ param.required ? 'Requerido' : 'Opcional' }}
           </div>
           <div class="card-description">
             {{ param.description || 'Sin descripción' }}
           </div>
+          
 
           <div class="card-actions">
-            <button mat-icon-button color="primary" (click)="onEditParameter(param)">
+            <button mat-icon-button color="primary" (click)="onEditParameter(param, param.key)">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button color="warn" (click)="onDeleteParameter(param)">
+            <button mat-icon-button color="warn" (click)="onDeleteParameter(param.key)">
               <mat-icon>delete</mat-icon>
             </button>
           </div>
@@ -42,17 +46,17 @@
       <div class="card-grid">
         <mat-card *ngFor="let schema of schemas" class="parameter-card">
           <div class="card-header">
-            <strong>{{ schema.name }}</strong>
+            <strong>{{ schema.key }}</strong>
           </div>
           <div class="card-description">
             {{ schema.description || 'Sin descripción' }}
           </div>
 
           <div class="card-actions">
-            <button mat-icon-button color="primary" (click)="onEditSchema(schema)">
+            <button mat-icon-button color="primary" (click)="onEditSchema(schema.key)">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button color="warn" (click)="onDeleteSchema(schema)">
+            <button mat-icon-button color="warn" (click)="onDeleteSchema(schema.key)">
               <mat-icon>delete</mat-icon>
             </button>
           </div>
@@ -72,17 +76,17 @@
       <div class="card-grid">
         <mat-card *ngFor="let security of securitySchemes" class="parameter-card">
           <div class="card-header">
-            <strong>{{ security.name }}</strong>
+            <strong>{{ security.key }}</strong>
           </div>
           <div class="card-description">
             {{ security.description || 'Sin descripción' }}
           </div>
 
           <div class="card-actions">
-            <button mat-icon-button color="primary" (click)="onEditSecuritySchema(security)">
+            <button mat-icon-button color="primary" (click)="onEditSecuritySchema(security.key)">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button color="warn" (click)="onDeleteSecuritySchema(security)">
+            <button mat-icon-button color="warn" (click)="onDeleteSecuritySchema(security.key)">
               <mat-icon>delete</mat-icon>
             </button>
           </div>
@@ -102,17 +106,17 @@
       <div class="card-grid">
         <mat-card *ngFor="let requestBody of requestBodies" class="parameter-card">
           <div class="card-header">
-            <strong>{{ requestBody.name }}</strong>
+            <strong>{{ requestBody.key }}</strong>
           </div>
           <div class="card-description">
             {{ requestBody.description || 'Sin descripción' }}
           </div>
 
           <div class="card-actions">
-            <button mat-icon-button color="primary" (click)="onEditResquestBody(requestBody)">
+            <button mat-icon-button color="primary" (click)="onEditResquestBody(requestBody.key)">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button color="warn" (click)="onDeleteResquestBody(requestBody)">
+            <button mat-icon-button color="warn" (click)="onDeleteResquestBody(requestBody.key)">
               <mat-icon>delete</mat-icon>
             </button>
           </div>
@@ -132,17 +136,17 @@
       <div class="card-grid">
         <mat-card *ngFor="let response of responses" class="parameter-card">
           <div class="card-header">
-            <strong>{{ response.name }}</strong>
+            <strong>{{ response.key }}</strong>
           </div>
           <div class="card-description">
             {{ response.description || 'Sin descripción' }}
           </div>
 
           <div class="card-actions">
-            <button mat-icon-button color="primary" (click)="onEditResponse(response)">
+            <button mat-icon-button color="primary" (click)="onEditResponse(response.key)">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button color="warn" (click)="onDeleteResponse(response)">
+            <button mat-icon-button color="warn" (click)="onDeleteResponse(response.key)">
               <mat-icon>delete</mat-icon>
             </button>
           </div>

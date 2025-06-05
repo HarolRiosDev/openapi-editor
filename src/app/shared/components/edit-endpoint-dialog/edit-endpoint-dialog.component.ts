@@ -226,6 +226,7 @@ export class EditEndpointDialogComponent implements OnInit {
       const existing = this.editingEndpoint.details.parametersArray?.find(p => p.name === paramName && p.in === 'path');
       if (!existing) {
         this.editingEndpoint.details.parametersArray?.push({
+          key: '', // Inicializar key como vacío, se puede ajustar según sea necesario
           name: paramName,
           in: 'path',
           required: true,
@@ -530,6 +531,7 @@ export class EditEndpointDialogComponent implements OnInit {
       this.editingEndpoint.details.parametersArray = [];
     }
     this.editingEndpoint.details.parametersArray.push({
+      key: '', // Inicializar key como vacío, se puede ajustar según sea necesario
       name: '',
       in: 'query', // Por defecto, 'query'
       required: false,
@@ -707,6 +709,7 @@ export class EditEndpointDialogComponent implements OnInit {
         } else if (param.name && param.in) {
             // Si no es una referencia global explícita o no tiene 'ref', construye el objeto de parámetro inline.
             let paramToSave: OpenApiParameterObject = {
+                key: param.key,
                 name: param.name,
                 in: param.in,
                 required: param.required || false,

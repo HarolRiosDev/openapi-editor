@@ -1,0 +1,71 @@
+<h2 mat-dialog-title>{{ data.isEdit ? 'Editar Parámetro' : 'Nuevo Parámetro' }}</h2>
+
+<form #form="ngForm" (ngSubmit)="save(form)" class="dialog-form" autocomplete="off">
+  <mat-dialog-content>
+
+    <!-- Nombre del parámetro -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Clave referencia</mat-label>
+      <input matInput name="clave" [(ngModel)]="parameter.key" required />
+    </mat-form-field>
+
+    <!-- Nombre del parámetro -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Nombre</mat-label>
+      <input matInput name="name" [(ngModel)]="parameter.name" required />
+    </mat-form-field>
+
+    <!-- Ubicación del parámetro -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>En</mat-label>
+      <mat-select name="in" [(ngModel)]="parameter.in" required>
+        <mat-option value="query">Query</mat-option>
+        <mat-option value="header">Header</mat-option>
+        <mat-option value="path">Path</mat-option>
+        <mat-option value="cookie">Cookie</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Tipo del parámetro -->
+    <mat-form-field appearance="fill" *ngIf="isSchemaObject(parameter.schema)">
+    <mat-label>Tipo</mat-label>
+    <mat-select [(ngModel)]="parameter.schema.type" name="type" required>
+        <mat-option value="string">string</mat-option>
+        <mat-option value="number">number</mat-option>
+        <mat-option value="integer">integer</mat-option>
+        <mat-option value="boolean">boolean</mat-option>
+        <mat-option value="array">array</mat-option>
+        <mat-option value="object">object</mat-option>
+    </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" *ngIf="isSchemaObject(parameter.schema)">
+    <mat-label>Formato</mat-label>
+        <input matInput [(ngModel)]="parameter.schema.format" name="format" />
+    </mat-form-field>
+
+    <!-- Descripción -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput name="description" [(ngModel)]="parameter.description" rows="1"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Ejemplo</mat-label>
+      <input matInput name="example" [(ngModel)]="parameter.example"/>
+    </mat-form-field>
+
+    <!-- Obligatorio -->
+    <mat-checkbox name="required" [(ngModel)]="parameter.required">¿Requerido?</mat-checkbox>
+
+    <!-- Mensaje de error -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="dialogRef.close()">Cancelar</button>
+    <button mat-raised-button color="primary" type="submit">Guardar</button>
+  </mat-dialog-actions>
+</form>

@@ -309,6 +309,7 @@ export class EndpointsComponent implements OnInit, OnDestroy {
     details.parametersArray?.forEach(param => {
         if (param.name && param.in && param.schema && this.isSchemaObject(param.schema) && param.schema.type) {
             const newParam: OpenApiParameterObject = {
+                key: param.key ,
                 name: param.name,
                 in: param.in,
                 required: param.required || false,

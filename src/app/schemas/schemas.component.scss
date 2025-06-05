@@ -38,10 +38,11 @@ mat-tab-group {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
+  margin: 0 2%;
 }
 
 .parameter-card {
-  width: 280px;
+  width: 245px;
   padding: 16px;
   border-radius: 12px;
   background: #fff;
