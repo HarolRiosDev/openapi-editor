@@ -1,1 +1,65 @@
-<p>edit-requestbody-dialog works!</p>
+<h2 mat-dialog-title>{{ data.isEdit ? 'Editar Cuerpo solicitud' : 'Nuevo Cuerpo solicitud' }}</h2>
+
+<form #form="ngForm" (ngSubmit)="save(form)" class="dialog-form" autocomplete="off">
+  <mat-dialog-content>
+
+    <!-- Nombre del parámetro -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Clave referencia</mat-label>
+      <input matInput name="clave" [(ngModel)]="requestBody.key" required />
+    </mat-form-field>
+
+    <!-- Descripción -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput name="description" [(ngModel)]="requestBody.description" rows="1"></textarea>
+    </mat-form-field>
+
+    <!-- Un solo Media Type + Schema -->
+    <div *ngIf="requestBody.content">
+      <ng-container *ngIf="objectKeys(requestBody.content).length > 0; else emptyContent">
+        <div *ngFor="let mediaType of objectKeys(requestBody.content)">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Media Type</mat-label>
+            <mat-select [(ngModel)]="mediaTypeEdit[mediaType]" name="mediaType{{mediaType}}" (selectionChange)="renameMediaType(mediaType)">
+              <mat-option *ngFor="let option of mediaTypeOptions" [value]="option">{{ option }}</mat-option>
+              <mat-option [value]="mediaType" *ngIf="mediaTypeOptions.indexOf(mediaType) === -1">{{ mediaType }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Schema (JSON)</mat-label>
+            <mat-select [(ngModel)]="schemaEdit[mediaType]" name="schema{{mediaType}}" (selectionChange)="updateSchemaFromSelect(mediaType)">
+              <mat-option *ngFor="let schemaName of schemaNames" [value]="schemaName">{{ schemaName }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </ng-container>
+      <ng-template #emptyContent>
+        <div class="add-media-type-block">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Media Type</mat-label>
+            <mat-select [(ngModel)]="newMediaType" name="newMediaType">
+              <mat-option *ngFor="let option of mediaTypeOptions" [value]="option">{{ option }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Schema (JSON)</mat-label>
+            <mat-select [(ngModel)]="newSchema" name="newSchema">
+              <mat-option *ngFor="let schemaName of schemaNames" [value]="schemaName">{{ schemaName }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </ng-template>
+    </div>
+
+    <!-- Mensaje de error -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="dialogRef.close()">Cancelar</button>
+    <button mat-raised-button color="primary" type="submit">Guardar</button>
+  </mat-dialog-actions>
+</form>

@@ -59,11 +59,8 @@ errorMessage: string | null = null; // Variable para el mensaje de error
     public dialogRef: MatDialogRef<EditParameterDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { key: string ,parameter: OpenApiParameterObject, existingParameter:OpenApiParameterObject[],  isEdit: boolean; }
   ) {
-    console.log('Datos recibidos en el diálogo:', data);
     this.parameter = { ...data.parameter }; // Hacer copia para no modificar directamente
     this.key = data.key; // Asignar la clave del parámetro
-    console.log('Parámetro inicial:', this.parameter);
-    console.log('Parámetro inicial:', this.parameter.key);
   }
 
   save(form: NgForm): void {

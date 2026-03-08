@@ -113,7 +113,7 @@
           </div>
 
           <div class="card-actions">
-            <button mat-icon-button color="primary" (click)="onEditResquestBody(requestBody.key)">
+            <button mat-icon-button color="primary" (click)="onEditResquestBody(requestBody,requestBody.key)">
               <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button color="warn" (click)="onDeleteResquestBody(requestBody.key)">
@@ -143,7 +143,7 @@
           </div>
 
           <div class="card-actions">
-            <button mat-icon-button color="primary" (click)="onEditResponse(response.key)">
+            <button mat-icon-button color="primary" (click)="onEditResponse(response,response.key)">
               <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button color="warn" (click)="onDeleteResponse(response.key)">

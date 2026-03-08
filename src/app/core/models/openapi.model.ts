@@ -80,6 +80,7 @@ export interface OpenApiHeaderObject extends Omit<OpenApiParameterObject, 'name'
 }
 
 export interface OpenApiRequestBodyObject {
+  key: string;
   description?: string;
   content: { [mediaType: string]: OpenApiMediaTypeObject };
   required?: boolean;

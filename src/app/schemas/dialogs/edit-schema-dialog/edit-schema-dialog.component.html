@@ -1,1 +1,82 @@
-<p>edit-schema-dialog works!</p>
+<h2 mat-dialog-title>{{ data.isEdit ? 'Editar esquema' : 'Nuevo esquema' }}</h2>
+
+<form #form="ngForm" (ngSubmit)="save(form)" class="dialog-form" autocomplete="off">
+  <mat-dialog-content>
+    <!-- Nombre del esquema -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Nombre del esquema</mat-label>
+      <input matInput name="schemaName" [(ngModel)]="schemaName" required />
+    </mat-form-field>
+
+    <!-- Descripción -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput name="description" [(ngModel)]="schema.description" rows="2"></textarea>
+    </mat-form-field>
+
+    <!-- Tipo principal -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Tipo</mat-label>
+      <mat-select [(ngModel)]="schema.type" name="type" required>
+        <mat-option value="object">object</mat-option>
+        <mat-option value="array">array</mat-option>
+        <mat-option value="string">string</mat-option>
+        <mat-option value="number">number</mat-option>
+        <mat-option value="integer">integer</mat-option>
+        <mat-option value="boolean">boolean</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Propiedades para object -->
+    <div *ngIf="schema.type === 'object'">
+      <h3>Propiedades</h3>
+      <div *ngFor="let prop of objectKeys(schema.properties); let i = index" class="property-row">
+        <mat-form-field appearance="outline" class="property-name">
+          <mat-label>Nombre</mat-label>
+          <input matInput [(ngModel)]="propertyNames[i]" name="propertyName{{i}}" required />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="property-type">
+          <mat-label>Tipo</mat-label>
+          <mat-select [(ngModel)]="schema.properties[propertyNames[i]].type" name="propertyType{{i}}" required>
+            <mat-option value="string">string</mat-option>
+            <mat-option value="number">number</mat-option>
+            <mat-option value="integer">integer</mat-option>
+            <mat-option value="boolean">boolean</mat-option>
+            <mat-option value="object">object</mat-option>
+            <mat-option value="array">array</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-icon-button color="warn" type="button" (click)="removeProperty(propertyNames[i])">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+      <button mat-button type="button" (click)="addProperty()">Añadir propiedad</button>
+    </div>
+
+    <!-- Elementos para array -->
+    <div *ngIf="schema.type === 'array'">
+      <h3>Tipo de elementos</h3>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Tipo de items</mat-label>
+        <mat-select [(ngModel)]="schema.items.type" name="itemsType" required>
+          <mat-option value="string">string</mat-option>
+          <mat-option value="number">number</mat-option>
+          <mat-option value="integer">integer</mat-option>
+          <mat-option value="boolean">boolean</mat-option>
+          <mat-option value="object">object</mat-option>
+          <mat-option value="array">array</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Mensaje de error -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="dialogRef.close()">Cancelar</button>
+    <button mat-raised-button color="primary" type="submit">Guardar</button>
+  </mat-dialog-actions>
+</form>

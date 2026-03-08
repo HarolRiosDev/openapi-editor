@@ -1,0 +1,38 @@
+.dialog-form {
+  width: 100%;
+}
+
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 0 !important;
+}
+
+mat-form-field.full-width {
+  width: 100%;
+}
+
+mat-form-field[appearance="outline"] {
+  margin-bottom: 12px;
+}
+
+.error-message {
+  color: #d32f2f;
+  font-size: 0.95em;
+  margin-top: 8px;
+}
+
+mat-dialog-actions {
+  margin-top: 16px;
+}
+
+@media (max-width: 600px) {
+  mat-dialog-content {
+    gap: 12px;
+  }
+  mat-form-field,
+  mat-form-field.full-width {
+    width: 100%;
+  }
+}

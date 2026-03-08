@@ -17,6 +17,7 @@ import { EditParameterDialogComponent } from './dialogs/edit-parameter-dialog/ed
 import { EditSchemaDialogComponent } from './dialogs/edit-schema-dialog/edit-schema-dialog.component';
 import { EditSecurityDialogComponent } from './dialogs/edit-security-dialog/edit-security-dialog.component';
 import { EditResponseDialogComponent } from './dialogs/edit-response-dialog/edit-response-dialog.component';
+import { EditRequestbodyDialogComponent } from './dialogs/edit-requestbody-dialog/edit-requestbody-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
@@ -171,11 +172,32 @@ export class SchemasComponent implements OnDestroy {
 
 
   onAddResponse() {
-    // Lógica para añadir un nuevo parámetro (mostrar modal, etc.)
+   const openapi = this.openapiService.getOpenapi();
+    const dialogRef = this.dialog.open(EditRequestbodyDialogComponent, {
+    width: '500px',
+    data: { response: {},existingResponses: this.responses,isEdit: false, } // Nuevo parámetro vacío
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Agrega al OpenAPI
+       // this.openapiService.setOpenapi({ ...openapi, components.parameters: this.parameters});   
+      }
+    });
   }
 
-  onEditResponse(key: any) {
-    // Lógica para editar el parámetro (abrir diálogo, etc.)
+  onEditResponse(response:any,key: any) {
+    const openapi = this.openapiService.getOpenapi();
+    const dialogRef = this.dialog.open(EditRequestbodyDialogComponent, {
+    width: '500px',
+    data: { key: key, requestBody: response ,existingResponse: this.responses,isEdit: true, } // Nuevo parámetro vacío
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Agrega al OpenAPI
+       // this.openapiService.setOpenapi({ ...openapi, components.parameters: this.parameters});   
+      }
+    });
   }
 
   onDeleteResponse(key: any) {
@@ -188,11 +210,32 @@ export class SchemasComponent implements OnDestroy {
 
 
   onAddResquestBody() {
-    // Lógica para añadir un nuevo parámetro (mostrar modal, etc.)
+    const openapi = this.openapiService.getOpenapi();
+    const dialogRef = this.dialog.open(EditRequestbodyDialogComponent, {
+    width: '500px',
+    data: { requestBody: {},existingRequestBody: this.requestBodies,isEdit: false, } // Nuevo parámetro vacío
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Agrega al OpenAPI
+       // this.openapiService.setOpenapi({ ...openapi, components.parameters: this.parameters});   
+      }
+    });
   }
 
-  onEditResquestBody(key: any) {
-    // Lógica para editar el parámetro (abrir diálogo, etc.)
+  onEditResquestBody(requestBody:any,key: any) {
+    const openapi = this.openapiService.getOpenapi();
+    const dialogRef = this.dialog.open(EditRequestbodyDialogComponent, {
+    width: '500px',
+    data: { key: key, requestBody: requestBody ,existingRequestBody: this.requestBodies,isEdit: true, } // Nuevo parámetro vacío
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Agrega al OpenAPI
+       // this.openapiService.setOpenapi({ ...openapi, components.parameters: this.parameters});   
+      }
+    });
   }
 
   onDeleteResquestBody(key: any) {
