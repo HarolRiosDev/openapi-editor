@@ -97,4 +97,19 @@ export class CodeViewComponent implements OnInit, OnDestroy {
       this.snackBar.open('Error al copiar al portapapeles', 'Cerrar', { duration: 2000, panelClass: 'snackbar-error' });
     });
   }
+
+  downloadFile(format: 'yaml' | 'json') {
+    const code = format === 'yaml' ? this.codeYAML : this.codeJSON;
+    const filename = `openapi.${format}`;
+    const blob = new Blob([code], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+    this.snackBar.open(`Archivo ${filename} descargado`, 'Cerrar', { duration: 2000 });
+  }
 }

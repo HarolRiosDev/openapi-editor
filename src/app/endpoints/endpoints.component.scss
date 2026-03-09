@@ -1,228 +1,491 @@
-/* src/app/endpoints/endpoints.component.scss */
-
+/* Estilos modernos para la pantalla de endpoints */
 .endpoints-container {
-  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  height: 100%;
+  gap: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
   width: 100%;
-  overflow: auto; /* let page scroll */
-  background: #fafafa;
-  box-sizing: border-box;
+  padding: 0 24px;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  flex-shrink: 0;
-}
+  padding: 24px 0;
 
-h2 {
-  margin: 0;
-  color: var(--text-color-primary);
-}
-
-.no-endpoints-message {
-  margin-top: 20px;
-  text-align: center;
-
-  mat-card {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-}
-
-.endpoints-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
-
-  /* lock row height to content so cards don’t stretch vertically */
-  grid-auto-rows: min-content;
-  align-items: start;
-  align-content: start;
-}
-
-.endpoint-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  /* let card height be determined by its contents */
-  /* height: 100%; */
-  box-shadow: var(--elevation-z2);
-  min-height: 90px; /* give a baseline height so very small cards still look consistent */
-  transition: box-shadow 0.2s ease-in-out;
-
-  &:hover {
-    box-shadow: var(--elevation-z8);
+  h2 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1a1a1a;
   }
 
-  mat-card-header {
-    padding-bottom: 0;
-    flex-grow: 1;
-  }
-
-  mat-card-title {
+  .header-actions {
     display: flex;
-    flex-direction: column;
-    width: 100%;
-    word-wrap: break-word;
-    font-size: 1.1em;
+    gap: 16px;
+    align-items: center;
   }
-
-  .method-tag {
-    font-weight: bold;
-    // Color de texto más oscuro para mejor contraste en fondos claros
-    color: rgba(0, 0, 0, 0.7); // Gris oscuro
-    padding: 4px 8px;
-    border-radius: 4px;
-    display: inline-block;
-    margin-bottom: 8px;
-
-    // !!! CAMBIOS CLAVE AQUÍ: Ancho fijo y centrado !!!
-    width: 80px; /* Un ancho fijo para todos los verbos */
-    text-align: center; /* Centra el texto dentro del cuadro */
-    flex-shrink: 0; /* Evita que el cuadro del método se encoja */
-    flex-grow: 0;  /* Evita que el cuadro del método se estire */
-  }
-
-  .path {
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 0.9em;
-    color: var(--text-color-secondary);
-  }
-
-  /* Aplica los nuevos colores de fondo */
-  .get-method { background-color: var(--get-color-light); }
-  .post-method { background-color: var(--post-color-light); }
-  .put-method { background-color: var(--put-color-light); }
-  .delete-method { background-color: var(--delete-color-light); }
-  .patch-method { background-color: var(--patch-color-light); }
-  .head-method { background-color: var(--head-color-light); }
-  .options-method { background-color: var(--options-color-light); }
-  .trace-method { background-color: var(--trace-color-light); }
 }
 
-/* Collapsible Filters Panel */
 .filters-panel {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 24px;
-  background: linear-gradient(135deg, rgba(63, 81, 181, 0.04) 0%, rgba(103, 58, 183, 0.04) 100%);
   flex-shrink: 0;
 
   ::ng-deep .mat-expansion-panel-header {
-    background: rgba(255, 255, 255, 0.8);
-    border-bottom: 2px solid rgba(63, 81, 181, 0.1);
+    background: #fafafa;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 16px 24px;
   }
 
   .mat-panel-title {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-weight: 500;
-    width: 100%;
+    gap: 12px;
+    font-weight: 600;
+    color: #1a1a1a;
 
     mat-icon {
-      color: var(--primary-color);
-    }
-
-    .filter-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--primary-color);
-      color: white;
-      border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      font-size: 0.75em;
-      font-weight: 600;
-      margin-left: auto;
+      color: #1976d2;
     }
   }
-}
 
-.filters-content {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-
-  .filter-field {
-    flex: 1;
-    min-width: 250px;
+  .filters-content {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
 
-  .filter-section {
-    padding: 15px;
-    background: rgba(0, 0, 0, 0.02);
-    border-radius: 8px;
-    border-left: 4px solid var(--primary-color);
+  .filter-row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
 
-    .filter-label {
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 200px;
+
+    label {
       font-weight: 600;
-      margin-bottom: 12px;
-      color: var(--text-color-primary);
-      font-size: 0.95em;
+      color: #424242;
+      font-size: 0.9rem;
     }
+  }
 
-    .filter-options {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      align-items: center;
+  .method-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
 
-      mat-checkbox {
-        margin-right: 8px;
+    ::ng-deep .mat-mdc-chip {
+      border-radius: 16px;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      height: 32px;
+
+      &.mat-mdc-chip-selected {
+        background: #1976d2;
+        color: white;
+      }
+
+      .get-method { background-color: #e8f5e8; color: #4caf50; }
+      .post-method { background-color: #fff3e0; color: #ff9800; }
+      .put-method { background-color: #e3f2fd; color: #2196f3; }
+      .delete-method { background-color: #ffebee; color: #f44336; }
+      .patch-method { background-color: #f3e5f5; color: #9c27b0; }
+      .head-method { background-color: #eceff1; color: #607d8b; }
+      .options-method { background-color: #efebe9; color: #795548; }
+      .trace-method { background-color: #e0f2f1; color: #00bcd4; }
+    }
+  }
+
+  .search-input {
+    ::ng-deep .mat-mdc-form-field {
+      width: 300px;
+
+      .mat-mdc-input-element {
+        color: #1a1a1a;
+      }
+
+      .mat-mdc-form-field-label {
+        color: #424242;
+      }
+
+      .mat-mdc-form-field-outline {
+        color: #e0e0e0;
       }
     }
   }
-
-  .filter-actions {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    padding-top: 10px;
-  }
 }
 
-.tag-chip {
-  cursor: pointer;
-  transition: all 0.2s ease;
+.endpoints-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+.endpoint-card {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+
+  // Colores de fondo sutiles basados en el método HTTP
+  &.get-method {
+    background: linear-gradient(135deg, #ffffff 0%, #e8f5e8 100%);
+    border-left: 4px solid #4caf50;
+  }
+
+  &.post-method {
+    background: linear-gradient(135deg, #ffffff 0%, #ffebee 100%);
+    border-left: 4px solid #f44336;
+  }
+
+  &.put-method {
+    background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 100%);
+    border-left: 4px solid #2196f3;
+  }
+
+  &.delete-method {
+    background: linear-gradient(135deg, #ffffff 0%, #ffebee 100%);
+    border-left: 4px solid #f44336;
+  }
+
+  &.patch-method {
+    background: linear-gradient(135deg, #ffffff 0%, #f3e5f5 100%);
+    border-left: 4px solid #9c27b0;
+  }
+
+  &.head-method {
+    background: linear-gradient(135deg, #ffffff 0%, #eceff1 100%);
+    border-left: 4px solid #607d8b;
+  }
+
+  &.options-method {
+    background: linear-gradient(135deg, #ffffff 0%, #efebe9 100%);
+    border-left: 4px solid #795548;
+  }
+
+  &.trace-method {
+    background: linear-gradient(135deg, #ffffff 0%, #e0f2f1 100%);
+    border-left: 4px solid #00bcd4;
+  }
 
   &:hover {
-    background-color: var(--primary-color);
-    color: white;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
   }
 
-  &.mat-mdc-chip-highlighted {
-    background-color: var(--primary-color);
-    color: white;
+  mat-card-actions {
+    button {
+      transition: all 0.2s ease;
+
+      mat-icon {
+        transition: color 0.2s ease;
+      }
+
+      &.edit-btn:hover mat-icon {
+        color: #1976d2;
+      }
+
+      &.delete-btn:hover mat-icon {
+        color: #f44336;
+      }
+    }
   }
 }
 
-.tags-list {
+.endpoint-header {
   display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 10px;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  background: #fafafa;
 
-  .tag-badge {
-    display: inline-block;
-    background: rgba(63, 81, 181, 0.12);
-    color: rgb(63, 81, 181);
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 0.85em;
-    font-weight: 500;
+  .method-badge {
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+
+    &.get {
+      background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+      box-shadow: 0 2px 4px rgba(76, 175, 80, 0.3);
+    }
+    &.post {
+      background: linear-gradient(135deg, #f44336 0%, #ef5350 100%);
+      box-shadow: 0 2px 4px rgba(244, 67, 54, 0.3);
+    }
+    &.put {
+      background: linear-gradient(135deg, #2196f3 0%, #42a5f5 100%);
+      box-shadow: 0 2px 4px rgba(33, 150, 243, 0.3);
+    }
+    &.delete {
+      background: linear-gradient(135deg, #f44336 0%, #ef5350 100%);
+      box-shadow: 0 2px 4px rgba(244, 67, 54, 0.3);
+    }
+    &.patch {
+      background: linear-gradient(135deg, #9c27b0 0%, #ba68c8 100%);
+      box-shadow: 0 2px 4px rgba(156, 39, 176, 0.3);
+    }
+    &.head {
+      background: linear-gradient(135deg, #607d8b 0%, #78909c 100%);
+      box-shadow: 0 2px 4px rgba(96, 125, 139, 0.3);
+    }
+    &.options {
+      background: linear-gradient(135deg, #795548 0%, #8d6e63 100%);
+      box-shadow: 0 2px 4px rgba(121, 85, 72, 0.3);
+    }
+    &.trace {
+      background: linear-gradient(135deg, #00bcd4 0%, #26c6da 100%);
+      box-shadow: 0 2px 4px rgba(0, 188, 212, 0.3);
+    }
+  }
+
+  .endpoint-path {
+    font-family: 'Fira Code', monospace;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    flex: 1;
+
+    // Colores de texto para las rutas basados en el método
+    &.get-method { color: #2e7d32; }
+    &.post-method { color: #c62828; }
+    &.put-method { color: #1565c0; }
+    &.delete-method { color: #b71c1c; }
+    &.patch-method { color: #6a1b9a; }
+    &.head-method { color: #37474f; }
+    &.options-method { color: #4e342e; }
+    &.trace-method { color: #00695c; }
+  }
+
+  .endpoint-actions {
+    display: flex;
+    gap: 8px;
+
+    button {
+      transition: all 0.2s ease;
+
+      mat-icon {
+        transition: color 0.2s ease;
+      }
+
+      &.edit-btn:hover mat-icon {
+        color: #1976d2;
+      }
+
+      &.delete-btn:hover mat-icon {
+        color: #f44336;
+      }
+    }
   }
 }
 
-/* Filter Group Old Styles - Cleanup */
-.filter-group {
-  display: none;
+.endpoint-content {
+  padding: 20px 24px;
+  flex: 1;
+
+  .endpoint-summary {
+    color: #424242;
+    line-height: 1.5;
+    margin: 0 0 16px 0;
+
+    // Colores de texto para los summaries basados en el método
+    &.get-method { color: #388e3c; }
+    &.post-method { color: #d32f2f; }
+    &.put-method { color: #1976d2; }
+    &.delete-method { color: #d32f2f; }
+    &.patch-method { color: #7b1fa2; }
+    &.head-method { color: #455a64; }
+    &.options-method { color: #5d4037; }
+    &.trace-method { color: #00897b; }
+  }
+
+  .endpoint-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      span:first-child {
+        font-weight: 500;
+        color: #424242;
+      }
+
+      span:last-child {
+        color: #1a1a1a;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.endpoint-footer {
+  padding: 16px 24px;
+  border-top: 1px solid #f0f0f0;
+  background: #fafafa;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  button {
+    transition: all 0.2s ease;
+
+    mat-icon {
+      transition: color 0.2s ease;
+    }
+
+    &.edit-btn:hover mat-icon {
+      color: #1976d2;
+    }
+
+    &.delete-btn:hover mat-icon {
+      color: #f44336;
+    }
+  }
+}
+
+.no-endpoints-message {
+  text-align: center;
+  padding: 48px 24px;
+
+  mat-card {
+    max-width: 500px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 32px;
+
+    p {
+      font-size: 1.1rem;
+      color: #424242;
+      margin: 0 0 16px 0;
+    }
+
+    button {
+      background: #1976d2;
+      color: white;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: #1976d2;
+        opacity: 0.9;
+      }
+    }
+  }
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .endpoints-container {
+    padding: 0 16px;
+  }
+
+  .endpoints-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+  }
+
+  .filters-panel {
+    .filter-row {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .search-input ::ng-deep .mat-mdc-form-field {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+
+    h2 {
+      font-size: 1.75rem;
+    }
+
+    .header-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+  }
+
+  .endpoints-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .endpoint-header {
+    padding: 16px 20px 12px;
+
+    .endpoint-path {
+      font-size: 1rem;
+    }
+  }
+
+  .endpoint-content {
+    padding: 16px 20px;
+  }
+
+  .endpoint-footer {
+    padding: 12px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .endpoints-container {
+    padding: 0 8px;
+  }
+
+  .header {
+    padding: 16px 0;
+
+    h2 {
+      font-size: 1.5rem;
+    }
+  }
+
+  .endpoint-card {
+    margin: 0 4px;
+  }
+
+  .filters-panel {
+    .filters-content {
+      padding: 16px;
+    }
+  }
 }

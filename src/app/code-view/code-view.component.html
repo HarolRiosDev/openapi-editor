@@ -1,39 +1,50 @@
 <div class="code-view-container">
   <div class="code-header">
     <h2>Vista de Código</h2>
-    <p>Visualiza tu especificación OpenAPI en formato YAML o JSON</p>
+    <div class="code-actions">
+      <button mat-stroked-button (click)="copyToClipboard(selectedIndex === 0 ? 'yaml' : 'json')">
+        <mat-icon>content_copy</mat-icon>
+        Copiar
+      </button>
+      <button mat-stroked-button (click)="downloadFile(selectedIndex === 0 ? 'yaml' : 'json')">
+        <mat-icon>download</mat-icon>
+        Descargar
+      </button>
+    </div>
   </div>
 
   <mat-tab-group [(selectedIndex)]="selectedIndex" class="code-tabs">
-    <!-- Pestaña YAML -->
     <mat-tab label="YAML">
-      <ng-template mat-tab-label>
-        <mat-icon class="tab-icon">data_object</mat-icon>
-        YAML
-      </ng-template>
       <div class="tab-content">
-        <div class="code-actions">
-          <button mat-icon-button matTooltip="Copiar YAML" (click)="copyToClipboard('yaml')">
-            <mat-icon>content_copy</mat-icon>
-          </button>
+        <div class="code-editor-container">
+          <div class="code-editor-header">
+            <div class="file-info">
+              <mat-icon>description</mat-icon>
+              <span>openapi.yaml</span>
+            </div>
+            <div class="editor-actions">
+              <button (click)="copyToClipboard('yaml')">Copiar</button>
+            </div>
+          </div>
+          <pre class="code-block"><code [innerHTML]="highlightedYAML"></code></pre>
         </div>
-        <pre class="code-block"><code [innerHTML]="highlightedYAML"></code></pre>
       </div>
     </mat-tab>
 
-    <!-- Pestaña JSON -->
     <mat-tab label="JSON">
-      <ng-template mat-tab-label>
-        <mat-icon class="tab-icon">data_object</mat-icon>
-        JSON
-      </ng-template>
       <div class="tab-content">
-        <div class="code-actions">
-          <button mat-icon-button matTooltip="Copiar JSON" (click)="copyToClipboard('json')">
-            <mat-icon>content_copy</mat-icon>
-          </button>
+        <div class="code-editor-container">
+          <div class="code-editor-header">
+            <div class="file-info">
+              <mat-icon>description</mat-icon>
+              <span>openapi.json</span>
+            </div>
+            <div class="editor-actions">
+              <button (click)="copyToClipboard('json')">Copiar</button>
+            </div>
+          </div>
+          <pre class="code-block"><code [innerHTML]="highlightedJSON"></code></pre>
         </div>
-        <pre class="code-block"><code [innerHTML]="highlightedJSON"></code></pre>
       </div>
     </mat-tab>
   </mat-tab-group>

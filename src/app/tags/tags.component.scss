@@ -1,160 +1,367 @@
-/* Estilos generales para el contenedor principal de la pantalla de tags */
+/* Estilos profesionales para la pantalla de tags */
 .tags-container {
-  padding: 24px;
-  height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  overflow: auto; /* scroll when necessary */
-  background: #fafafa;
+  gap: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
   width: 100%;
-  box-sizing: border-box;
+  padding: 24px;
+  background: var(--background-primary);
 }
+
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  flex-shrink: 0;
+  padding: 24px 0;
+
+  h2 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  button {
+    background: var(--primary-color);
+    color: white;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
+
+    &:hover {
+      background: var(--primary-dark);
+      box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4);
+      transform: translateY(-2px);
+    }
+  }
 }
 
-h2 {
-  margin: 0;
-  color: var(--text-color-primary, #333); /* Usa variable o fallback */
+.tags-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+.tag-card {
+  background: var(--background-primary);
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px var(--shadow-light);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+
+  &:hover {
+    box-shadow: 0 8px 24px var(--shadow-medium);
+    transform: translateY(-4px);
+  }
+}
+
+.tag-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--border-light);
+  background: var(--background-secondary);
+
+  .tag-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .tag-actions {
+    display: flex;
+    gap: 8px;
+
+    button {
+      background: var(--secondary-color);
+      color: white;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: var(--secondary-dark);
+        transform: translateY(-1px);
+      }
+
+      &[mat-icon-button] {
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+        padding: 0;
+
+        mat-icon {
+          font-size: 18px;
+          height: 18px;
+          width: 18px;
+        }
+      }
+    }
+  }
+}
+
+.tag-content {
+  padding: 20px 24px;
+  flex: 1;
+
+  .tag-description {
+    color: var(--text-primary);
+    line-height: 1.5;
+    margin: 0 0 16px 0;
+  }
+
+  .tag-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      span:first-child {
+        font-weight: 500;
+        color: var(--text-secondary);
+      }
+
+      span:last-child {
+        color: var(--text-primary);
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.tag-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border-light);
+  background: var(--background-secondary);
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  button {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    font-weight: 500;
+
+    &:hover {
+      background: var(--primary-light);
+      border-color: var(--primary-dark);
+    }
+  }
 }
 
 .no-tags-message {
-  margin-top: 20px;
   text-align: center;
+  padding: 48px 24px;
 
   mat-card {
-    max-width: 600px;
+    max-width: 500px;
     margin: 0 auto;
-    padding: 20px;
+    background: var(--background-primary);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 4px 12px var(--shadow-light);
+
+    p {
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      margin: 0 0 16px 0;
+    }
+
+    button {
+      background: var(--primary-color);
+      color: white;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-weight: 600;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
+
+      &:hover {
+        background: var(--primary-dark);
+        box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4);
+        transform: translateY(-2px);
+      }
+    }
   }
 }
 
-/* Grid para mostrar las tarjetas de tags - RESPONSIVO */
+/* Responsive design */
+@media (max-width: 1024px) {
+  .tags-container {
+    padding: 0 16px;
+  }
+
+  .tags-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+
+    h2 {
+      font-size: 1.75rem;
+    }
+  }
+
+  .tags-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tag-header {
+    padding: 16px 20px 12px;
+
+    .tag-name {
+      font-size: 1.1rem;
+    }
+  }
+
+  .tag-content {
+    padding: 16px 20px;
+  }
+
+  .tag-footer {
+    padding: 12px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tags-container {
+    padding: 0 8px;
+  }
+
+  .header {
+    padding: 16px 0;
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 0.9rem;
+    }
+  }
+
+  .tag-card {
+    margin: 0 4px;
+  }
+}
+
+/* Grid responsivo para las tarjetas de tags */
 .tags-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-  padding: 0;
-  margin-top: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
 
-  /* force rows to size to their content rather than stretching to fill available height */
+  /* lock row height to content so cards don't stretch vertically */
   grid-auto-rows: min-content;
-  align-items: start; /* align items at the top of each row */
-  align-content: start; /* pack rows at the top instead of spreading vertically */
+  align-items: start;
+  align-content: start;
 
   @media (max-width: 768px) {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
   }
-  
+
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
   }
 }
 
-/* Estilos para cada tarjeta de tag */
+/* Estilos modernos para cada tarjeta de tag */
 .tag-card {
-  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  background: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 2px 8px 0 rgba(120, 144, 156, 0.10);
-  border: 1px solid #e0e7ef;
-  padding: 16px;
-  min-height: 90px;
-  /* allow card to size to its content rather than stretching to fill the grid row */
-  /* height: 100%; */
-
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
-
-  /* don't let grid force this card taller than necessary */
-  align-self: start;
-
-  transition: all 0.2s ease-in-out;
-  
-  &:hover {
-    box-shadow: 0 4px 16px 0 rgba(163, 191, 250, 0.2);
-    transform: translateY(-2px);
-  }
-}
-
-/* Contenedor del contenido principal de la tarjeta (info y formulario de edición) */
-.tag-content {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* Permite que el contenido crezca y ocupe el espacio disponible */
-  flex-basis: 0; /* Base de crecimiento */
-  width: 100%; /* Ocupa todo el ancho disponible */
-  min-width: 0; /* Esencial para el `text-overflow` */
-  padding: 0 !important; /* Anula el padding por defecto de mat-card-content */
+  min-height: 120px;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+
+  align-self: start;
+}
+
+/* Contenedor del contenido principal de la tarjeta */
+.tag-content {
+  padding: 20px;
+  flex-grow: 1;
 }
 
 /* Título del tag */
 .tag-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #424242;
+  margin-bottom: 8px;
   display: block;
-  /* Elimina max-width fijo para permitir que ocupe el 100% de .tag-content */
-  width: 100%;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  font-weight: 500;
-  color: #444b5a;
-  margin-bottom: 4px; /* Pequeño espacio debajo del título */
 }
 
 /* Descripción del tag */
-.tag-info .desc,
 .desc {
-  display: block;
-  /* Elimina max-width fijo */
-  width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: #7b8fa1;
-  font-size: 0.98em;
-  margin-left: 0;
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.5;
 }
 
-/* Estilos para el formulario de edición dentro del card */
+/* Estilos para el formulario de edición */
 .tag-content form {
   display: flex;
-  flex-direction: column; /* Cambiado a columna para que los campos de formulario se apilen */
-  flex-grow: 1;
-  width: 100%;
-  gap: 8px; /* Espacio entre los campos del formulario */
+  flex-direction: column;
+  gap: 16px;
+
+  .tag-field {
+    width: 100%;
+  }
+
+  .edit-actions-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 16px;
+  }
 }
 
-/* Estilos para los campos de entrada de Material (mat-form-field) en el formulario de edición */
-.tag-field {
-  width: 100%; /* Ocupa todo el ancho dentro del formulario */
-  margin-right: 0; /* Elimina margen derecho si el flex-direction es column */
-}
-
-/* Contenedor para los botones de 'check' y 'close' en modo edición */
-.edit-actions-buttons {
-  display: flex;
-  justify-content: flex-end; /* Alinea los botones a la derecha */
-  gap: 8px; /* Espacio entre los botones */
-  margin-top: 8px; /* Margen superior para separarlos de los campos */
-}
-
-/* Acciones del Tag (botones de 'edit' y 'delete' cuando NO está en edición) */
+/* Acciones de la tarjeta */
 .tag-actions {
   display: flex;
-  flex-direction: column; /* Apila los iconos verticalmente */
-  gap: 4px; /* Espacio entre los iconos */
-  align-items: flex-end; /* Alinea los iconos a la derecha */
-  justify-content: center; /* Centra los iconos verticalmente */
-  margin-left: 10px; /* Pequeño margen a la izquierda para separarlo del texto */
-  padding: 0 !important; /* Anula el padding por defecto de mat-card-actions */
-}
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 16px 20px;
+  background: #fafafa;
+  border-top: 1px solid #f0f0f0;
 
-/* Eliminamos estilos duplicados o no necesarios de la versión anterior */
-/* .add-tag-form no se usa directamente en este HTML */
+  button {
+    width: 40px;
+    height: 40px;
+  }
+}

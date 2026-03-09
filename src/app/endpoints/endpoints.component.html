@@ -1,9 +1,11 @@
 <div class="endpoints-container">
   <div class="header">
-    <h2>Endpoints(<span>{{ filteredEndpoints.length }}/{{ endpoints.length }}</span>)</h2>
-    <button mat-raised-button color="primary" (click)="openAddEndpointDialog()">
-      <mat-icon>add</mat-icon> Añadir Endpoint
-    </button>
+    <h2>Endpoints (<span>{{ filteredEndpoints.length }}/{{ endpoints.length }}</span>)</h2>
+    <div class="header-actions">
+      <button mat-raised-button color="primary" (click)="openAddEndpointDialog()">
+        <mat-icon>add</mat-icon> Añadir Endpoint
+      </button>
+    </div>
   </div>
 
   <!-- Filters Panel (Collapsible) -->
@@ -101,15 +103,15 @@
 
   <!-- Endpoints Grid -->
   <div class="endpoints-grid" *ngIf="filteredEndpoints.length > 0">
-    <mat-card *ngFor="let endpoint of filteredEndpoints; let i = index" class="endpoint-card">
+    <mat-card *ngFor="let endpoint of filteredEndpoints; let i = index" class="endpoint-card" [ngClass]="getHttpMethodClass(getHttpMethod(endpoint))">
       <mat-card-header>
         <mat-card-title>
           <span class="method-tag" [ngClass]="getHttpMethodClass(getHttpMethod(endpoint))">
             {{ getHttpMethod(endpoint) | uppercase }}
           </span>
-          <span class="path">{{ endpoint.path }}</span>
+          <span class="path" [ngClass]="getHttpMethodClass(getHttpMethod(endpoint))">{{ endpoint.path }}</span>
         </mat-card-title>
-        <mat-card-subtitle *ngIf="endpoint.details.summary">
+        <mat-card-subtitle *ngIf="endpoint.details.summary" [ngClass]="getHttpMethodClass(getHttpMethod(endpoint))">
           {{ endpoint.details.summary }}
         </mat-card-subtitle>
       </mat-card-header>
@@ -119,10 +121,10 @@
         </div>
       </mat-card-content>
       <mat-card-actions align="end">
-        <button mat-icon-button (click)="openEditEndpointDialog(endpoint)" matTooltip="Editar Endpoint">
+        <button mat-icon-button class="edit-btn" (click)="openEditEndpointDialog(endpoint)" matTooltip="Editar Endpoint">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="warn" (click)="deleteEndpoint(endpoints.indexOf(endpoint))" matTooltip="Eliminar Endpoint">
+        <button mat-icon-button class="delete-btn" (click)="deleteEndpoint(endpoints.indexOf(endpoint))" matTooltip="Eliminar Endpoint">
           <mat-icon>delete</mat-icon>
         </button>
       </mat-card-actions>

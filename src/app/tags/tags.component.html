@@ -1,6 +1,6 @@
 <div class="tags-container">
   <div class="header">
-    <h2>Tags (<span>{{ tags.length}}</span>)</h2>
+    <h2>Tags (<span>{{ tags.length }}</span>)</h2>
     <button mat-raised-button color="primary" (click)="openAddTagDialog()">
       <mat-icon>add</mat-icon> Añadir Tag
     </button>
@@ -18,7 +18,7 @@
   <div class="tags-grid" *ngIf="tags.length > 0">
     <mat-card class="tag-card" *ngFor="let tag of tags; let i = index">
       <mat-card-content class="tag-content">
-        <span *ngIf="!editIndexMap[i]" matTooltip="{{ tag.name }}{{tag.description ? ' (' + tag.description + ')' : ''}}" matTooltipShowDelay="400">
+        <span *ngIf="!editIndexMap[i]" matTooltip="{{ tag.name }}{{ tag.description ? ' (' + tag.description + ')' : '' }}" matTooltipShowDelay="400">
           <span class="tag-title">{{ tag.name }}</span>
           <span class="desc" *ngIf="tag.description">({{ tag.description }})</span>
         </span>
@@ -44,8 +44,12 @@
       </mat-card-content>
 
       <mat-card-actions class="tag-actions" *ngIf="!editIndexMap[i]">
-        <button mat-icon-button color="primary" (click)="startEdit(i)"><mat-icon>edit</mat-icon></button>
-        <button mat-icon-button color="warn" (click)="deleteTag(i)"><mat-icon>delete</mat-icon></button>
+        <button mat-icon-button color="primary" (click)="startEdit(i)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteTag(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
       </mat-card-actions>
     </mat-card>
   </div>

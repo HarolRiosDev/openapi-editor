@@ -1,5 +1,6 @@
 // src/app/app.component.ts
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterModule } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -17,7 +18,7 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterModule, MatToolbarModule, MatIconModule, MatSnackBarModule, MatDialogModule, MatSidenavModule, MatButtonModule, MatTooltipModule],
+  imports: [CommonModule, RouterOutlet, RouterModule, MatToolbarModule, MatIconModule, MatSnackBarModule, MatDialogModule, MatSidenavModule, MatButtonModule, MatTooltipModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

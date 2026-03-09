@@ -1,51 +1,128 @@
-@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '@angular/material/prebuilt-themes/azure-blue.css';
 
-/* You can add global styles to this file, and also import other style files */
-
-// Paleta pastel global
+/* Paleta de colores profesional */
 :root {
-  --pastel-bg: #f8fafc;
-  --pastel-bg-alt: #f3f7fa;
-  --pastel-primary: #a3bffa;
-  --pastel-primary-dark: #7b8fa1;
-  --pastel-green: #b9fbc0;
-  --pastel-pink: #ffe5ec;
-  --pastel-pink-hover: #fcdff1;
-  --pastel-border: #e0e7ef;
-  --pastel-text: #444;
+  --primary-color: #1976d2;
+  --primary-light: #e3f2fd;
+  --primary-dark: #1565c0;
 
-  /* Colores de los métodos HTTP */
-  --get-color-light: #C8E6C9;   // Verde muy claro
-  --post-color-light: #FFECB3;  // Amarillo/Naranja muy claro
-  --put-color-light: #BBDEFB;   // Azul muy claro
-  --delete-color-light: #FFCDD2; // Rojo muy claro
-  --patch-color-light: #E1BEE7; // Morado muy claro
-  --head-color-light: #CFD8DC;  // Gris azulado muy claro
-  --options-color-light: #D7CCC8; // Marrón muy claro
-  --trace-color-light: #B2EBF2;  // Cian muy claro
+  --secondary-color: #4caf50;
+  --secondary-light: #e8f5e8;
+  --secondary-dark: #2e7d32;
 
-  /* Asegúrate de que estas variables generales también estén definidas
-     en tu `src/styles.scss` si no lo están, o ajústalas aquí. */
-  --text-color-primary: #333;
-  --text-color-secondary: #666;
-  --elevation-z2: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
-  --elevation-z8: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
+  --accent-color: #ff9800;
+  --accent-light: #fff3e0;
+  --accent-dark: #e65100;
+
+  --background-primary: #ffffff;
+  --background-secondary: #f8f9fa;
+  --background-tertiary: #f5f5f5;
+
+  --text-primary: #212121;
+  --text-secondary: #757575;
+  --text-muted: #9e9e9e;
+
+  --border-color: #e0e0e0;
+  --border-light: #f0f0f0;
+
+  --shadow-light: rgba(0, 0, 0, 0.1);
+  --shadow-medium: rgba(0, 0, 0, 0.15);
+  --shadow-heavy: rgba(0, 0, 0, 0.2);
+
+  --success-color: #4caf50;
+  --warning-color: #ff9800;
+  --error-color: #f44336;
 }
 
-.snackbar-error {
-  background-color: #f44336; /* Color rojo de Material Design */
-  color: white;
-  .mat-simple-snackbar-action {
-    color: white; /* Color del texto del botón 'Cerrar' */
-  }
-}
+/* Estilos globales */
 html, body {
   height: 100%;
   min-height: 100vh;
-   margin: 0;
-  background: var(--pastel-bg);
-  min-width: 650px;    // o lo que tú definas como mínimo aceptable
-  min-height: 600px;   // opcional
+  margin: 0;
+  background: var(--background-secondary);
+  color: var(--text-primary);
+  font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  min-width: 650px;
+  min-height: 600px;
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-tertiary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Snackbar personalizado */
+.snackbar-error {
+  background-color: var(--delete-color) !important;
+  color: white !important;
+  .mat-simple-snackbar-action {
+    color: white !important;
+  }
+}
+
+/* Transiciones suaves para cambios de tema */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Material Design overrides para tema oscuro */
+[data-theme="dark"] {
+  .mat-mdc-card {
+    background: var(--bg-card);
+    color: var(--text-primary);
+  }
+
+  .mat-mdc-button {
+    color: var(--text-primary);
+  }
+
+  .mat-mdc-raised-button {
+    background: var(--bg-card);
+    color: var(--text-primary);
+  }
+
+  .mat-mdc-outlined-button {
+    border-color: var(--border-primary);
+    color: var(--text-primary);
+  }
+
+  .mat-mdc-input-element {
+    color: var(--text-primary);
+  }
+
+  .mat-mdc-form-field-label {
+    color: var(--text-secondary);
+  }
+
+  .mat-mdc-form-field-outline {
+    color: var(--border-primary);
+  }
+
+  .mat-mdc-tab-header {
+    background: var(--bg-secondary);
+  }
+
+  .mat-mdc-tab {
+    color: var(--text-secondary);
+  }
+
+  .mat-mdc-tab.mdc-tab--active {
+    color: var(--text-accent);
+  }
 }
 
 body {
