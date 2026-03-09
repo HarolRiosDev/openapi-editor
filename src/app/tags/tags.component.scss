@@ -1,12 +1,21 @@
 /* Estilos generales para el contenedor principal de la pantalla de tags */
 .tags-container {
-  padding: 20px;
+  padding: 24px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow: auto; /* scroll when necessary */
+  background: #fafafa;
+  width: 100%;
+  box-sizing: border-box;
 }
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  flex-shrink: 0;
 }
 
 h2 {
@@ -28,32 +37,50 @@ h2 {
 /* Grid para mostrar las tarjetas de tags - RESPONSIVO */
 .tags-grid {
   display: grid;
-  /* Mismo enfoque responsivo: mínimo 300px, auto-fill para columnas */
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px; /* Espacio entre las tarjetas */
-  padding: 0; /* No necesitamos padding en el grid si el container ya tiene */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 0;
   margin-top: 20px;
+
+  /* force rows to size to their content rather than stretching to fill available height */
+  grid-auto-rows: min-content;
+  align-items: start; /* align items at the top of each row */
+  align-content: start; /* pack rows at the top instead of spreading vertically */
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+  
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Estilos para cada tarjeta de tag */
 .tag-card {
-  background: #fff;
-  border-radius: 16px;
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  border-radius: 12px;
   box-shadow: 0 2px 8px 0 rgba(120, 144, 156, 0.10);
-  /* Mantiene la altura mínima y los ajustes de padding */
-  padding: 18px 18px 12px 18px;
+  border: 1px solid #e0e7ef;
+  padding: 16px;
   min-height: 90px;
-  height: 100%; /* Asegura que todas las tarjetas de la fila tengan la misma altura */
+  /* allow card to size to its content rather than stretching to fill the grid row */
+  /* height: 100%; */
 
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-start; /* Alinea los elementos en la parte superior del eje transversal */
+  align-items: flex-start;
+  gap: 12px;
 
-  /* Transiciones y sombras para interacción */
-  transition: box-shadow 0.2s ease-in-out;
+  /* don't let grid force this card taller than necessary */
+  align-self: start;
+
+  transition: all 0.2s ease-in-out;
+  
   &:hover {
-    box-shadow: 0 6px 32px 0 rgba(163,191,250,0.18); /* Sombra al pasar el ratón */
+    box-shadow: 0 4px 16px 0 rgba(163, 191, 250, 0.2);
+    transform: translateY(-2px);
   }
 }
 

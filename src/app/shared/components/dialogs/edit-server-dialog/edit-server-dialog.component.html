@@ -1,0 +1,53 @@
+<h2 mat-dialog-title>{{ data.isEdit ? 'Editar servidor' : 'Nuevo servidor' }}</h2>
+
+<form #form="ngForm" (ngSubmit)="save(form)" class="dialog-form" autocomplete="off">
+  <mat-dialog-content>
+    <!-- URL del servidor -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>URL del servidor</mat-label>
+      <input matInput name="url" [(ngModel)]="server.url" required placeholder="https://api.example.com" />
+    </mat-form-field>
+
+    <!-- Descripción -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput name="description" [(ngModel)]="server.description" rows="2" placeholder="Ej: Servidor de producción"></textarea>
+    </mat-form-field>
+
+    <!-- Variables del servidor -->
+    <div *ngIf="server.variables">
+      <h3>Variables del servidor</h3>
+      <div *ngFor="let varName of variableNames" class="variable-row">
+        <mat-form-field appearance="outline" class="variable-name">
+          <mat-label>Variable</mat-label>
+          <input matInput [value]="varName" disabled />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="variable-value">
+          <mat-label>Valor por defecto</mat-label>
+          <input matInput [(ngModel)]="server.variables![varName].default" [name]="'varValue' + varName" required />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="variable-desc">
+          <mat-label>Descripción</mat-label>
+          <input matInput [(ngModel)]="server.variables![varName].description" [name]="'varDesc' + varName" />
+        </mat-form-field>
+        <button mat-icon-button color="warn" type="button" (click)="removeVariable(varName)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+      <button mat-button type="button" (click)="addVariable()">
+        <mat-icon>add</mat-icon>
+        Añadir variable
+      </button>
+    </div>
+
+    <!-- Mensaje de error -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="cancel()">Cancelar</button>
+    <button mat-raised-button color="primary" type="submit">Guardar</button>
+  </mat-dialog-actions>
+</form>

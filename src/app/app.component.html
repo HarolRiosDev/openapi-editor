@@ -8,19 +8,33 @@
   <a mat-button [routerLink]="['/code-view']" routerLinkActive="active">Vista Código</a>
   
   <span class="spacer"></span>
-  <a mat-button class="toolbar-action" (click)="fileInput.click()">
+  <a mat-button class="toolbar-action" (click)="fileInput.click()" matTooltip="Importar proyecto">
     <mat-icon>upload_file</mat-icon>
-    Importar YML/YAML/JSON
+    Importar
     <input #fileInput type="file" accept=".yml,.yaml,.json" style="display:none" (change)="onFileSelected($event)" />
   </a>
-  <a mat-button class="toolbar-action" (click)="nuevaApi()" >
+  <a mat-button class="toolbar-action" (click)="loadSavedData()" matTooltip="Cargar datos guardados">
+    <mat-icon>restore</mat-icon>
+    Cargar
+  </a>
+  <a mat-button class="toolbar-action" (click)="clearSavedData()" matTooltip="Limpiar datos guardados">
+    <mat-icon>delete_sweep</mat-icon>
+    Limpiar
+  </a>
+  <a mat-button class="toolbar-action" (click)="exportToYAML()" matTooltip="Descargar como YAML">
+    <mat-icon>download</mat-icon>
+    YAML
+  </a>
+  <a mat-button class="toolbar-action" (click)="exportToJSON()" matTooltip="Descargar como JSON">
+    <mat-icon>download</mat-icon>
+    JSON
+  </a>
+  <a mat-button class="toolbar-action" (click)="nuevaApi()" matTooltip="Crear nueva especificación">
     <mat-icon>add</mat-icon>
-    Nueva API
+    Nueva
   </a>
 </mat-toolbar>
 <div class="main-content">
   <router-outlet></router-outlet>
 </div>
-<footer class="footer">
-  <span>© 2025 OpenAPI Editor</span>
-</footer>
+<!-- footer removed for cleaner layout; add back if desired -->

@@ -1,0 +1,110 @@
+<h2 mat-dialog-title>{{ data.isEdit ? 'Editar esquema de seguridad' : 'Nuevo esquema de seguridad' }}</h2>
+
+<form #form="ngForm" (ngSubmit)="save(form)" class="dialog-form" autocomplete="off">
+  <mat-dialog-content>
+    <!-- Nombre del esquema -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Nombre del esquema</mat-label>
+      <input matInput name="schemeName" [(ngModel)]="schemeName" required />
+    </mat-form-field>
+
+    <!-- Descripción -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput name="description" [(ngModel)]="scheme.description" rows="2"></textarea>
+    </mat-form-field>
+
+    <!-- Tipo de esquema -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Tipo de esquema</mat-label>
+      <mat-select [(ngModel)]="scheme.type" name="type" required (selectionChange)="onTypeChange()">
+        <mat-option *ngFor="let type of securityTypes" [value]="type">{{ type }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- HTTP Scheme -->
+    <div *ngIf="scheme.type === 'http'">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Esquema HTTP</mat-label>
+        <mat-select [(ngModel)]="scheme.scheme" name="httpScheme" required>
+          <mat-option *ngFor="let sch of httpSchemes" [value]="sch">{{ sch }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Bearer Format (opcional)</mat-label>
+        <input matInput name="bearerFormat" [(ngModel)]="scheme.bearerFormat" />
+      </mat-form-field>
+    </div>
+
+    <!-- API Key -->
+    <div *ngIf="scheme.type === 'apiKey'">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Nombre de la llave</mat-label>
+        <input matInput name="apiKeyName" [(ngModel)]="scheme.name" required />
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Ubicación</mat-label>
+        <mat-select [(ngModel)]="scheme.in" name="apiKeyIn" required>
+          <mat-option *ngFor="let loc of apiKeyLocations" [value]="loc">{{ loc }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- OAuth2 -->
+    <div *ngIf="scheme.type === 'oauth2'">
+      <h3>Flujos OAuth2</h3>
+      <div *ngFor="let flow of oauthFlows">
+        <button mat-button type="button" (click)="addOAuthFlow(flow)" 
+                [disabled]="getFlowKeys().includes(flow)">
+          <mat-icon>add</mat-icon>
+          Añadir flujo: {{ flow }}
+        </button>
+      </div>
+      <div *ngFor="let flowKey of getFlowKeys()" class="flow-section">
+        <div class="flow-header">
+          <h4>{{ flowKey }}</h4>
+          <button mat-icon-button color="warn" type="button" (click)="removeOAuthFlow(flowKey)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+        <mat-form-field appearance="outline" class="full-width" *ngIf="flowKey !== 'clientCredentials'">
+          <mat-label>Authorization URL</mat-label>
+          <input matInput [ngModel]="getFlowValue(flowKey, 'authorizationUrl')" 
+                 (ngModelChange)="setFlowValue(flowKey, 'authorizationUrl', $event)"
+                 [name]="'authUrl' + flowKey" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width" *ngIf="flowKey !== 'implicit'">
+          <mat-label>Token URL</mat-label>
+          <input matInput [ngModel]="getFlowValue(flowKey, 'tokenUrl')" 
+                 (ngModelChange)="setFlowValue(flowKey, 'tokenUrl', $event)"
+                 [name]="'tokenUrl' + flowKey" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Refresh URL (opcional)</mat-label>
+          <input matInput [ngModel]="getFlowValue(flowKey, 'refreshUrl')" 
+                 (ngModelChange)="setFlowValue(flowKey, 'refreshUrl', $event)"
+                 [name]="'refreshUrl' + flowKey" />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- OpenID Connect -->
+    <div *ngIf="scheme.type === 'openIdConnect'">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>OpenID Connect URL</mat-label>
+        <input matInput name="openIdUrl" [(ngModel)]="scheme.openIdConnectUrl" required 
+               placeholder="https://example.com/.well-known/openid-configuration" />
+      </mat-form-field>
+    </div>
+
+    <!-- Mensaje de error -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="cancel()">Cancelar</button>
+    <button mat-raised-button color="primary" type="submit">Guardar</button>
+  </mat-dialog-actions>
+</form>

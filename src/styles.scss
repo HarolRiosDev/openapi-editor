@@ -119,6 +119,7 @@ mat-toolbar a.active {
   padding: 0 !important;
 }
 
+
 .mat-mdc-dialog-title {
   font-size: 1.25rem;
   font-weight: 600;
@@ -169,13 +170,4 @@ mat-toolbar a.active {
   min-height: 0;
 }
 
-.footer {
-  width: 100%;
-  background: var(--pastel-primary-dark);
-  color: #fff;
-  text-align: center;
-  font-size: 0.98rem;
-  padding: 10px 0 8px 0;
-  letter-spacing: 0.5px;
-  box-shadow: 0 -2px 8px 0 rgba(163,191,250,0.08);
-}
+/* global footer styles removed—component no longer renders a footer */

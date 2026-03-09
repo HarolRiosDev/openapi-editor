@@ -1,0 +1,68 @@
+.dialog-form {
+  width: 100%;
+}
+
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 0 !important;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+mat-form-field.full-width {
+  width: 100%;
+}
+
+h3 {
+  margin: 16px 0 12px 0;
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+}
+
+h4 {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.flow-section {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  background: #f9f9f9;
+}
+
+.flow-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.error-message {
+  color: #d32f2f;
+  font-size: 0.95em;
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: #ffebee;
+  border-radius: 4px;
+}
+
+mat-dialog-actions {
+  margin-top: 16px;
+}
+
+@media (max-width: 600px) {
+  mat-dialog-content {
+    gap: 12px;
+    max-height: 80vh;
+  }
+
+  .flow-section {
+    padding: 8px;
+  }
+}

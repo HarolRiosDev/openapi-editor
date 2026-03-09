@@ -9,6 +9,12 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+import { MatChipsModule } from '@angular/material/chips';
+import { FormsModule } from '@angular/forms';
 
 import { EditEndpointDialogComponent } from '../shared/components/edit-endpoint-dialog/edit-endpoint-dialog.component';
 import { ConfirmDialogComponent } from '../shared/components/modal/confirm-dialog.component';
@@ -41,12 +47,29 @@ import * as FileSaver from 'file-saver';
     MatCardModule,
     MatSnackBarModule,
     MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatChipsModule,
+    FormsModule,
   ],
 })
 export class EndpointsComponent implements OnInit, OnDestroy {
   endpoints: EndpointDisplayItem[] = [];
+  filteredEndpoints: EndpointDisplayItem[] = [];
   private sub?: Subscription;
   openapi: Openapi | null = null;
+  
+  // Filter properties
+  searchTerm: string = '';
+  selectedMethods = new Set<string>();
+  selectedTags = new Set<string>();
+  sortBy: 'path' | 'method' = 'path';
+  
+  // Available options for filters
+  availableMethods: string[] = [];
+  availableTags: string[] = [];
 
   constructor(private openapiService: OpenapiService, private dialog: MatDialog, private snackBar: MatSnackBar) { }
 
@@ -63,6 +86,8 @@ export class EndpointsComponent implements OnInit, OnDestroy {
 
   loadEndpoints(): void {
     this.endpoints = [];
+    const tagsMap = new Set<string>();
+    const methodsMap = new Set<string>();
     if (this.openapi?.paths) {
       for (const path in this.openapi.paths) {
         const pathObject = this.openapi.paths[path];
@@ -141,13 +166,95 @@ export class EndpointsComponent implements OnInit, OnDestroy {
                 parameters: undefined
               }
             });
+            
+            // Collect tags and methods
+            if (opDetails.tags) {
+              opDetails.tags.forEach(tag => tagsMap.add(tag));
+            }
+            methodsMap.add(method);
           }
         }
       }
     }
+    
+    // Update available filters
+    this.availableTags = Array.from(tagsMap).sort();
+    this.availableMethods = Array.from(methodsMap).sort();
+    
+    // Apply filters
+    this.applyFilters();
+  }
+  
+  applyFilters(): void {
+    let filtered = [...this.endpoints];
+    
+    // Filter by search term
+    if (this.searchTerm.trim()) {
+      const term = this.searchTerm.toLowerCase();
+      filtered = filtered.filter(ep => 
+        ep.path.toLowerCase().includes(term) ||
+        ep.details.summary?.toLowerCase().includes(term) ||
+        ep.details.description?.toLowerCase().includes(term) ||
+        ep.details.operationId?.toLowerCase().includes(term)
+      );
+    }
+    
+    // Filter by selected methods
+    if (this.selectedMethods.size > 0) {
+      filtered = filtered.filter(ep => this.selectedMethods.has(ep.method));
+    }
+    
+    // Filter by selected tags
+    if (this.selectedTags.size > 0) {
+      filtered = filtered.filter(ep => 
+        ep.details.tags && ep.details.tags.some(tag => this.selectedTags.has(tag))
+      );
+    }
+    
+    // Sort
+    if (this.sortBy === 'path') {
+      filtered.sort((a, b) => a.path.localeCompare(b.path));
+    } else if (this.sortBy === 'method') {
+      filtered.sort((a, b) => a.method.localeCompare(b.method) || a.path.localeCompare(b.path));
+    }
+    
+    this.filteredEndpoints = filtered;
+  }
+  
+  toggleMethod(method: string): void {
+    if (this.selectedMethods.has(method)) {
+      this.selectedMethods.delete(method);
+    } else {
+      this.selectedMethods.add(method);
+    }
+    this.applyFilters();
+  }
+  
+  toggleTag(tag: string): void {
+    if (this.selectedTags.has(tag)) {
+      this.selectedTags.delete(tag);
+    } else {
+      this.selectedTags.add(tag);
+    }
+    this.applyFilters();
+  }
+  
+  onSearchChange(): void {
+    this.applyFilters();
+  }
+  
+  onSortChange(): void {
+    this.applyFilters();
+  }
+  
+  clearFilters(): void {
+    this.searchTerm = '';
+    this.selectedMethods.clear();
+    this.selectedTags.clear();
+    this.applyFilters();
   }
 
-  public isReferenceObject(obj: any): obj is OpenApiReferenceObject { // <-- Público
+  public isReferenceObject(obj: any): obj is OpenApiReferenceObject {
     return obj && typeof obj === 'object' && '$ref' in obj;
   }
 

@@ -1,78 +1,134 @@
 .componentes-container {
   height: 100%;
+  width: 100%;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 mat-tab-group {
   background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 0;
+  box-shadow: none;
   height: 100%;
+  flex: 1;
+
+  ::ng-deep {
+    .mat-mdc-tab-labels {
+      background-color: #f5f5f5;
+      border-bottom: 2px solid #e0e7ef;
+    }
+
+    .mat-mdc-tab-body-wrapper {
+      height: 100%;
+    }
+
+    .mat-mdc-tab-body-content {
+      height: 100%;
+    }
+  }
 }
 
 .tab-content {
-  padding: 16px;
-}
-.param-card {
-  margin-bottom: 16px;
-}
-
-.section-title {
-  font-weight: bold;
-  font-size: 1.2rem;
-  margin-bottom: 16px;
+  padding: 24px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: auto; /* container scrollable */
 }
 
 .header-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 
   h2 {
     margin: 0;
-    font-size: 20px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
   }
 }
 
 .card-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 16px;
-  margin: 0 2%;
+  padding: 0;
+  flex: 1;
+  min-height: 0;
+  overflow: visible; /* let parent handle scrolling */
+
+  /* lock row height to content instead of stretching */
+  grid-auto-rows: min-content;
+  align-items: start; /* avoid grid row stretching when some cards are taller */
+  align-content: start; /* pack rows at the top */
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .parameter-card {
-  width: 245px;
   padding: 16px;
   border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  border: 1px solid #e0e7ef;
+  box-shadow: 0 2px 8px rgba(120, 144, 156, 0.08);
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 90px; /* baseline for uniform appearance */
+
+  /* keep this card from stretching to fill a taller sibling */
+  align-self: start;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(120, 144, 156, 0.15);
+    transform: translateY(-2px);
+  }
 
   .card-header {
-    font-size: 16px;
-    margin-bottom: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 
     .param-location {
       font-weight: normal;
-      font-size: 14px;
-      color: gray;
-      margin-left: 4px;
+      font-size: 12px;
+      color: #888;
+      background: #f0f0f0;
+      padding: 2px 8px;
+      border-radius: 4px;
     }
   }
 
   .card-description {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 12px;
+    font-size: 13px;
+    color: #666;
+    line-height: 1.4;
+    flex: 1;
   }
 
   .card-actions {
     display: flex;
     justify-content: flex-end;
     gap: 8px;
+    border-top: 1px solid #e0e7ef;
+    padding-top: 12px;
   }
 }
-
 
 /* Responsive tweaks */
 @media (max-width: 768px) {

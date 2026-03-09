@@ -1,11 +1,85 @@
 <div class="endpoints-container">
   <div class="header">
-    <h2>Endpoints(<span>{{ endpoints.length}}</span>)</h2>
+    <h2>Endpoints(<span>{{ filteredEndpoints.length }}/{{ endpoints.length }}</span>)</h2>
     <button mat-raised-button color="primary" (click)="openAddEndpointDialog()">
       <mat-icon>add</mat-icon> Añadir Endpoint
     </button>
   </div>
 
+  <!-- Filters Panel (Collapsible) -->
+  <mat-expansion-panel class="filters-panel" [expanded]="false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon>filter_list</mat-icon>
+        Filtros y Ordenamiento
+        <span class="filter-badge" *ngIf="searchTerm || selectedMethods.size > 0 || selectedTags.size > 0">
+          {{ (searchTerm ? 1 : 0) + selectedMethods.size + selectedTags.size }} activos
+        </span>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="filters-content">
+      <!-- Search Input -->
+      <mat-form-field class="filter-field">
+        <mat-label>Buscar endpoints...</mat-label>
+        <input matInput [ngModel]="searchTerm" (ngModelChange)="searchTerm=$event; onSearchChange()" 
+               placeholder="Ruta, summary, descripción...">
+        <mat-icon matPrefix>search</mat-icon>
+        <button *ngIf="searchTerm" matSuffix mat-icon-button aria-label="Clear" 
+                (click)="searchTerm=''; onSearchChange()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <!-- Sort Options -->
+      <mat-form-field class="filter-field">
+        <mat-label>Ordenar por</mat-label>
+        <mat-select [(ngModel)]="sortBy" (ngModelChange)="onSortChange()">
+          <mat-option value="path">Ruta (A-Z)</mat-option>
+          <mat-option value="method">Método (GET, POST, ...)</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Method Filter -->
+      <div class="filter-section" *ngIf="availableMethods.length > 0">
+        <div class="filter-label">Métodos HTTP:</div>
+        <div class="filter-options">
+          <mat-checkbox *ngFor="let method of availableMethods" 
+                        [checked]="selectedMethods.has(method)"
+                        (change)="toggleMethod(method)"
+                        [ngClass]="'method-' + method.toLowerCase()">
+            {{ method.toUpperCase() }}
+          </mat-checkbox>
+        </div>
+      </div>
+
+      <!-- Tags Filter -->
+      <div class="filter-section" *ngIf="availableTags.length > 0">
+        <div class="filter-label">Tags:</div>
+        <div class="filter-options">
+          <mat-chip-set aria-label="Seleccionar tags">
+            <mat-chip 
+              *ngFor="let tag of availableTags"
+              [highlighted]="selectedTags.has(tag)"
+              (click)="toggleTag(tag)"
+              class="tag-chip">
+              {{ tag }}
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+      </div>
+
+      <!-- Clear Filters Button -->
+      <div class="filter-actions">
+        <button mat-stroked-button (click)="clearFilters()" 
+                *ngIf="searchTerm || selectedMethods.size > 0 || selectedTags.size > 0">
+          <mat-icon>clear</mat-icon> Limpiar Todos los Filtros
+        </button>
+      </div>
+    </div>
+  </mat-expansion-panel>
+
+  <!-- No Results Message -->
   <div *ngIf="endpoints.length === 0" class="no-endpoints-message">
     <mat-card>
       <mat-card-content>
@@ -15,8 +89,19 @@
     </mat-card>
   </div>
 
-  <div class="endpoints-grid">
-    <mat-card *ngFor="let endpoint of endpoints; let i = index" class="endpoint-card">
+  <!-- No Filtered Results Message -->
+  <div *ngIf="endpoints.length > 0 && filteredEndpoints.length === 0" class="no-endpoints-message">
+    <mat-card>
+      <mat-card-content>
+        <p>No hay endpoints que coincidan con los filtros aplicados.</p>
+        <button mat-button (click)="clearFilters()">Limpiar filtros</button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Endpoints Grid -->
+  <div class="endpoints-grid" *ngIf="filteredEndpoints.length > 0">
+    <mat-card *ngFor="let endpoint of filteredEndpoints; let i = index" class="endpoint-card">
       <mat-card-header>
         <mat-card-title>
           <span class="method-tag" [ngClass]="getHttpMethodClass(getHttpMethod(endpoint))">
@@ -24,12 +109,20 @@
           </span>
           <span class="path">{{ endpoint.path }}</span>
         </mat-card-title>
+        <mat-card-subtitle *ngIf="endpoint.details.summary">
+          {{ endpoint.details.summary }}
+        </mat-card-subtitle>
       </mat-card-header>
+      <mat-card-content *ngIf="endpoint.details.tags && endpoint.details.tags.length > 0">
+        <div class="tags-list">
+          <span *ngFor="let tag of endpoint.details.tags" class="tag-badge">{{ tag }}</span>
+        </div>
+      </mat-card-content>
       <mat-card-actions align="end">
         <button mat-icon-button (click)="openEditEndpointDialog(endpoint)" matTooltip="Editar Endpoint">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="warn" (click)="deleteEndpoint(i)" matTooltip="Eliminar Endpoint">
+        <button mat-icon-button color="warn" (click)="deleteEndpoint(endpoints.indexOf(endpoint))" matTooltip="Eliminar Endpoint">
           <mat-icon>delete</mat-icon>
         </button>
       </mat-card-actions>

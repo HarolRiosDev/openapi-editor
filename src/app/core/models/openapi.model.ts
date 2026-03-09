@@ -118,6 +118,33 @@ export interface OpenApiSecurityRequirementObject {
   [name: string]: string[];
 }
 
+export interface OpenApiSecuritySchemeObject {
+  type: 'http' | 'apiKey' | 'oauth2' | 'openIdConnect';
+  description?: string;
+  // Para http
+  scheme?: string;
+  bearerFormat?: string;
+  // Para apiKey
+  name?: string;
+  in?: 'query' | 'header' | 'cookie';
+  // Para oauth2
+  flows?: {
+    implicit?: OpenApiOAuthFlowObject;
+    password?: OpenApiOAuthFlowObject;
+    clientCredentials?: OpenApiOAuthFlowObject;
+    authorizationCode?: OpenApiOAuthFlowObject;
+  };
+  // Para openIdConnect
+  openIdConnectUrl?: string;
+}
+
+export interface OpenApiOAuthFlowObject {
+  authorizationUrl?: string;
+  tokenUrl?: string;
+  refreshUrl?: string;
+  scopes: { [scope: string]: string };
+}
+
 export interface OpenApiTagObject {
   name: string;
   description?: string;
@@ -144,7 +171,7 @@ export interface Openapi {
     examples?: Record<string, OpenApiExampleObject | OpenApiReferenceObject>;
     requestBodies?: Record<string, OpenApiRequestBodyObject | OpenApiReferenceObject>;
     headers?: Record<string, OpenApiHeaderObject | OpenApiReferenceObject>;
-    securitySchemes?: Record<string, any>;
+    securitySchemes?: Record<string, OpenApiSecuritySchemeObject | OpenApiReferenceObject>;
     links?: Record<string, OpenApiLinkObject | OpenApiReferenceObject>;
     callbacks?: Record<string, OpenApiCallbackObject | OpenApiReferenceObject>;
   };
